@@ -3,7 +3,6 @@ package com.bahari.bahari_resto_API.service.impl;
 import com.bahari.bahari_resto_API.model.dto.request.StoreRequest;
 import com.bahari.bahari_resto_API.model.dto.response.StoreResponse;
 import com.bahari.bahari_resto_API.model.entity.Store;
-import com.bahari.bahari_resto_API.repository.CustomerRepository;
 import com.bahari.bahari_resto_API.repository.StoreRepository;
 import com.bahari.bahari_resto_API.service.StoreService;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
