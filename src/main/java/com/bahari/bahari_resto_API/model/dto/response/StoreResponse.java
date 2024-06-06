@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StoreResponse {
+    private String id;
     private String name;
     private String address;
     private String phoneNum;

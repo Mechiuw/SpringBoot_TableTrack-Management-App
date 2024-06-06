@@ -26,6 +26,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .build();
         customerRepository.save(customer);
         return CustomerResponse.builder()
+                .id(customer.getId())
                 .name(customer.getName())
                 .email(customer.getEmail())
                 .build();
@@ -40,6 +41,7 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerResponse getId(String id){
         Customer customer = customerRepository.findById(id).orElseThrow();
         return CustomerResponse.builder()
+                .id(customer.getId())
                 .name(customer.getName())
                 .email(customer.getEmail())
                 .build();
@@ -54,6 +56,7 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setPhoneNum(customerRequest.getPhoneNum());
         customerRepository.save(customer);
         return CustomerResponse.builder()
+                .id(customer.getId())
                 .name(customer.getName())
                 .email(customer.getEmail())
                 .build();
