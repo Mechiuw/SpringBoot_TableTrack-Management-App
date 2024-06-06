@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +40,13 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public StoreResponse getById(String id) {
-        return null;
+        Store store = storeRepository.findById(id).orElse(null);
+        assert store != null;
+        return StoreResponse.builder()
+                .name(store.getName())
+                .address(store.getAddress())
+                .phoneNum(store.getPhoneNumber())
+                .build();
     }
 
     @Override
