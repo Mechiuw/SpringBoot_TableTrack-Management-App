@@ -34,7 +34,7 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public List<Store> getAll() {
-        return null;
+        return storeRepository.findAll();
     }
 
     @Override
