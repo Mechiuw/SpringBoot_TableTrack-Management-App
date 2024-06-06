@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -40,8 +41,7 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public StoreResponse getById(String id) {
-        Store store = storeRepository.findById(id).orElse(null);
-        assert store != null;
+        Store store = storeRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Store not found with id : " + id));
         return StoreResponse.builder()
                 .name(store.getName())
                 .address(store.getAddress())
@@ -51,6 +51,7 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public StoreResponse update(String id, StoreRequest storeRequest) {
+
         return null;
     }
 
