@@ -69,6 +69,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void delete(String id) {
-
+        Product product = productRepository.findById(id).orElseThrow();
+        productRepository.delete(product);
     }
 }
