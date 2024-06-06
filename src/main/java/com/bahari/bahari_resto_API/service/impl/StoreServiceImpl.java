@@ -51,8 +51,17 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public StoreResponse update(String id, StoreRequest storeRequest) {
-
-        return null;
+        Store store = storeRepository.findById(id).orElseThrow();
+        store.setName(storeRequest.getName());
+        store.setAddress(storeRequest.getAddress());
+        store.setEmail(storeRequest.getEmail());
+        store.setPhoneNumber(storeRequest.getPhoneNumber());
+        storeRepository.save(store);
+        return StoreResponse.builder()
+                .name(store.getName())
+                .address(store.getAddress())
+                .phoneNum(store.getPhoneNumber())
+                .build();
     }
 
     @Override
