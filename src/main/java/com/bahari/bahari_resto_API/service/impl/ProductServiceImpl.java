@@ -40,7 +40,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse getById(String id) {
-        return null;
+        Product product = productRepository.findById(id).orElseThrow();
+        return ProductResponse.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .price(product.getPrice())
+                .distributionType(product.getDistributionType())
+                .eProductType(product.getProductType())
+                .build();
     }
 
     @Override
