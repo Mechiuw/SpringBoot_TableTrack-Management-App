@@ -26,6 +26,7 @@ public class StoreServiceImpl implements StoreService {
                 .build();
         storeRepository.save(store);
         return StoreResponse.builder()
+                .id(store.getId())
                 .name(store.getName())
                 .address(store.getAddress())
                 .phoneNum(store.getPhoneNumber())
@@ -41,6 +42,7 @@ public class StoreServiceImpl implements StoreService {
     public StoreResponse getById(String id) {
         Store store = storeRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Store not found with id : " + id));
         return StoreResponse.builder()
+                .id(store.getId())
                 .name(store.getName())
                 .address(store.getAddress())
                 .phoneNum(store.getPhoneNumber())
@@ -56,6 +58,7 @@ public class StoreServiceImpl implements StoreService {
         store.setPhoneNumber(storeRequest.getPhoneNumber());
         storeRepository.save(store);
         return StoreResponse.builder()
+                .id(store.getId())
                 .name(store.getName())
                 .address(store.getAddress())
                 .phoneNum(store.getPhoneNumber())
