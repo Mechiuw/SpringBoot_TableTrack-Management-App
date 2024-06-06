@@ -52,12 +52,20 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setEmail(customerRequest.getEmail());
         customer.setAddress(customerRequest.getAddress());
         customer.setPhoneNum(customerRequest.getPhoneNum());
-        customerRepository.
-        return null;
+        customerRepository.save(customer);
+        return CustomerResponse.builder()
+                .name(customer.getName())
+                .email(customer.getEmail())
+                .build();
     }
 
     @Override
     public void delete(String id) {
-
+        try {
+            Optional<Customer> customer = customerRepository.findById(id);
+            customer.ifPresent(customerRepository::delete);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 }
