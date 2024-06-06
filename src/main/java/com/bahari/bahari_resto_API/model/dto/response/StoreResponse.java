@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class StoreRespone {
+public class StoreResponse {
     private String name;
     private String address;
     private String phoneNum;
