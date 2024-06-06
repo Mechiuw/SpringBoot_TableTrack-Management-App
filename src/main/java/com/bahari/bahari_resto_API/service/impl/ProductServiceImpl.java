@@ -52,7 +52,19 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse update(String id, ProductRequest productRequest) {
-        return null;
+        Product product = productRepository.findById(id).orElseThrow();
+        product.setName(productRequest.getName());
+        product.setPrice(productRequest.getPrice());
+        product.setDistributionType(productRequest.getDistributionType());
+        product.setProductType(productRequest.getEProductType());
+        productRepository.save(product);
+        return ProductResponse.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .price(product.getPrice())
+                .distributionType(product.getDistributionType())
+                .eProductType(product.getProductType())
+                .build();
     }
 
     @Override
