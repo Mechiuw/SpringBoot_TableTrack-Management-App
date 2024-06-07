@@ -49,7 +49,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
     @Override
     public List<OrderDetails> getAll() {
-        return null;
+        return orderDetailRepository.findAll();
     }
 
     @Override
