@@ -9,6 +9,7 @@ import com.bahari.bahari_resto_API.model.entity.Order;
 import com.bahari.bahari_resto_API.model.entity.OrderDetails;
 import com.bahari.bahari_resto_API.model.entity.Product;
 import com.bahari.bahari_resto_API.repository.CustomerRepository;
+import com.bahari.bahari_resto_API.repository.OrderDetailRepository;
 import com.bahari.bahari_resto_API.repository.OrderRepository;
 import com.bahari.bahari_resto_API.repository.ProductRepository;
 import com.bahari.bahari_resto_API.service.OrderService;
@@ -26,6 +27,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final CustomerRepository customerRepository;
     private final ProductRepository productRepository;
+    private final OrderDetailRepository orderDetailRepository;
 
     private void validateOrderRequest(OrderRequest x){
         if(x == null){
@@ -96,7 +98,21 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderResponse getById(String id) {
-        return null;
+        Order order = orderRepository.findById(id).orElseThrow(() -> new NoSuchElementException("no orders found"));
+        List<OrderDetails> orderDetailsList = orderDetailRepository.findByOrder(order);
+        List<OrderDetailsResponse> orderDetailsResponses = orderDetailsList.stream()
+                .map(orderDetails -> OrderDetailsResponse.builder()
+                        .id(orderDetails.getId())
+                        .orderId(order.getId())
+                        .quantity(orderDetails.getQuantity())
+                        .productId(orderDetails.getProduct().getId())
+                        .build()).toList();
+        return OrderResponse.builder()
+                .id(order.getId())
+                .dateTime(order.getDateTime())
+                .customerId(order.getCustomerId().getId())
+                .orderDetails(orderDetailsResponses)
+                .build();
     }
 
     @Override
