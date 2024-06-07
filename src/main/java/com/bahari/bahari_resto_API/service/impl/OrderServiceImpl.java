@@ -54,8 +54,8 @@ public class OrderServiceImpl implements OrderService {
 
         //TODO 2 : Retrieve Customer
         Customer customer = customerRepository.findById(orderRequest.getCustomerId())
-                .orElseThrow(() -> new NoSuchElementException("Customer not found with id : " +
-                        orderRequest.getCustomerId()));
+                .orElseThrow(() -> new NoSuchElementException(String.format("Customer not found with id : %s",
+                        orderRequest.getCustomerId())));
 
         //TODO 3 : Create / Build Order Entity
         Order order = Order.builder().build();
@@ -66,7 +66,7 @@ public class OrderServiceImpl implements OrderService {
         List<OrderDetails> orderDetailsList = new ArrayList<>();
         for(OrderDetailsRequest orderDetailsRequest : orderRequest.getOrderDetails()){
             Product product = productRepository.findById(orderDetailsRequest.getProductId())
-                    .orElseThrow(() -> new NoSuchElementException("product id not found : " + orderDetailsRequest.getProductId()));
+                    .orElseThrow(() -> new NoSuchElementException(String.format("product id not found : %s" ,orderDetailsRequest.getProductId())));
             OrderDetails orderDetails = new OrderDetails();
             orderDetails.setProduct(product);
             orderDetails.setQuantity(orderDetailsRequest.getQuantity());
@@ -123,8 +123,8 @@ public class OrderServiceImpl implements OrderService {
         validateOrderRequest(orderRequest);
 
         Customer customer = customerRepository.findById(orderRequest.getCustomerId())
-                .orElseThrow(() -> new NoSuchElementException("Customer not found with id : " +
-                        orderRequest.getCustomerId()));
+                .orElseThrow(() -> new NoSuchElementException(String.format("Customer not found with id : %s" ,
+                        orderRequest.getCustomerId())));
 
         Order order = orderRepository.findById(id).orElseThrow(() -> new NoSuchElementException("no orders found"));
         List<OrderDetails> orderDetails = orderDetailRepository.findByOrder(order);
@@ -152,12 +152,12 @@ public class OrderServiceImpl implements OrderService {
     public void delete(String id) {
         try {
             Order orderDelete = orderRepository.findById(id).orElseThrow(
-                    () -> new NoSuchElementException("not found such order with id : " + id));
+                    () -> new NoSuchElementException(String.format("not found such order with id : %s", id)));
             orderRepository.delete(orderDelete);
         } catch (NoSuchElementException e) {
-            throw new OrderNotFoundException("Order not found with id : " + id);
+            throw new OrderNotFoundException(String.format("Order not found with id : %s" , id));
         } catch (Exception e ){
-            throw new OrderProcessingException("Error deleting order with the id : " + id);
+            throw new OrderProcessingException(String.format("Error deleting order with the id : %s" , id));
         }
     }
 }
