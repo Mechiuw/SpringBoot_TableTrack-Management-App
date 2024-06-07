@@ -66,7 +66,32 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
     @Override
     public OrderDetailsResponse update(String id, OrderDetailsRequest orderDetailsRequest) {
-        return null;
+        OrderDetails orderDetails = orderDetailRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(String.format(
+                        "not found any orderDetails with id : %s",id
+                )));
+
+        Product product = productRepository.findById(orderDetailsRequest.getProductId())
+                .orElseThrow(() -> new NoSuchElementException(String.format(
+                        "not found any product with id : %s",orderDetailsRequest.getProductId()
+                )));
+        Order order = orderRepository.findById(orderDetailsRequest.getOrderId())
+                .orElseThrow(() -> new NoSuchElementException(String.format(
+                        "not found any order with id : %s",orderDetailsRequest.getOrderId()
+                )));
+
+        orderDetails.setQuantity(orderDetailsRequest.getQuantity());
+        orderDetails.setOrder(order);
+        orderDetails.setProduct(product);
+
+        OrderDetails savedOrderDetails = orderDetailRepository.saveAndFlush(orderDetails);
+
+        return OrderDetailsResponse.builder()
+                .id(savedOrderDetails.getId())
+                .quantity(savedOrderDetails.getQuantity())
+                .orderId(savedOrderDetails.getId())
+                .productId(savedOrderDetails.getId())
+                .build();
     }
 
     @Override

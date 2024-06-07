@@ -140,6 +140,8 @@ public class OrderServiceImpl implements OrderService {
         order.setCustomerId(customer);
         order.setOrderDetails(orderDetails);
 
+        orderRepository.saveAndFlush(order);
+
         return OrderResponse.builder()
                 .id(order.getId())
                 .dateTime(order.getDateTime())
