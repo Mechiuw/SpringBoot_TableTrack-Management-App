@@ -96,6 +96,12 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
     @Override
     public void delete(String id) {
+        OrderDetails orderDetails = orderDetailRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(String.format(
+                        "no such order detail found with id : %s",id
+                )));
 
+        orderDetailRepository.delete(orderDetails);
+        System.out.println("successfully deleted");
     }
 }
