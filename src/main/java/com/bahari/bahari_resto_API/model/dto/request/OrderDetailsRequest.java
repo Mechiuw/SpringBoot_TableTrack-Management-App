@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class OrderDetailsRequest {
+    private String orderId;
     private Integer quantity;
     private String productId;
     private Integer totalPrice;
