@@ -117,7 +117,32 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderResponse update(String id, OrderRequest orderRequest) {
-        return null;
+        validateOrderRequest(orderRequest);
+
+        Customer customer = customerRepository.findById(orderRequest.getCustomerId())
+                .orElseThrow(() -> new NoSuchElementException("Customer not found with id : " +
+                        orderRequest.getCustomerId()));
+
+        Order order = orderRepository.findById(id).orElseThrow(() -> new NoSuchElementException("no orders found"));
+        List<OrderDetails> orderDetails = orderDetailRepository.findByOrder(order);
+        List<OrderDetailsResponse> orderDetailsResponses = orderDetails.stream()
+                        .map(orderDetailsMap -> OrderDetailsResponse.builder()
+                                .id(orderDetailsMap.getId())
+                                .orderId(orderDetailsMap.getOrder().getId())
+                                .quantity(orderDetailsMap.getQuantity())
+                                .productId(orderDetailsMap.getProduct().getId())
+                                .build()).toList();
+
+        order.setDateTime(orderRequest.getDateTime());
+        order.setCustomerId(customer);
+        order.setOrderDetails(orderDetails);
+
+        return OrderResponse.builder()
+                .id(order.getId())
+                .dateTime(order.getDateTime())
+                .customerId(customer.getId())
+                .orderDetails(orderDetailsResponses)
+                .build();
     }
 
     @Override
