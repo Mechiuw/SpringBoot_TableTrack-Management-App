@@ -81,7 +81,7 @@ public class OrderServiceImpl implements OrderService {
         //TODO 6 : Build Response
         List<OrderDetailsResponse> detailsResponses = orderDetailsList.stream()
                 .map(od -> OrderDetailsResponse.builder()
-                        .orderId(od.getId())
+                        .orderId(od.getOrder().getId())
                         .productId(od.getProduct().getId())
                         .quantity(od.getQuantity())
                         .build()).toList();

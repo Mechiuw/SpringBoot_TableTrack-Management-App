@@ -41,7 +41,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
         return OrderDetailsResponse.builder()
                 .id(savedOrderDetails.getId())
-                .orderId(savedOrderDetails.getId())
+                .orderId(savedOrderDetails.getOrder().getId())
                 .productId(savedOrderDetails.getProduct().getId())
                 .quantity(savedOrderDetails.getQuantity())
                 .build();
@@ -54,7 +54,14 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
     @Override
     public OrderDetailsResponse getById(String id) {
-        return null;
+        OrderDetails orderDetails = orderDetailRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Order Details not found"));
+        return OrderDetailsResponse.builder()
+                .id(orderDetails.getId())
+                .quantity(orderDetails.getQuantity())
+                .productId(orderDetails.getProduct().getId())
+                .orderId(orderDetails.getOrder().getId())
+                .build();
     }
 
     @Override
