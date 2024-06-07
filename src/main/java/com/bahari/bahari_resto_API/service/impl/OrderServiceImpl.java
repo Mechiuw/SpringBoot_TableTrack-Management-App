@@ -1,23 +1,31 @@
 package com.bahari.bahari_resto_API.service.impl;
 
+import com.bahari.bahari_resto_API.model.dto.request.OrderDetailsRequest;
 import com.bahari.bahari_resto_API.model.dto.request.OrderRequest;
+import com.bahari.bahari_resto_API.model.dto.response.OrderDetailsResponse;
 import com.bahari.bahari_resto_API.model.dto.response.OrderResponse;
 import com.bahari.bahari_resto_API.model.entity.Customer;
 import com.bahari.bahari_resto_API.model.entity.Order;
+import com.bahari.bahari_resto_API.model.entity.OrderDetails;
+import com.bahari.bahari_resto_API.model.entity.Product;
 import com.bahari.bahari_resto_API.repository.CustomerRepository;
 import com.bahari.bahari_resto_API.repository.OrderRepository;
+import com.bahari.bahari_resto_API.repository.ProductRepository;
 import com.bahari.bahari_resto_API.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final CustomerRepository customerRepository;
+    private final ProductRepository productRepository;
 
     private void validateOrderRequest(OrderRequest x){
         if(x == null){
@@ -49,13 +57,36 @@ public class OrderServiceImpl implements OrderService {
         order.setDateTime(orderRequest.getDateTime());
         order.setCustomerId(customer);
 
-        //TODO 4 : Set Order Details
+        //TODO 4 : Set List<OrderDetails>
+        List<OrderDetails> orderDetailsList = new ArrayList<>();
+        for(OrderDetailsRequest orderDetailsRequest : orderRequest.getOrderDetails()){
+            Product product = productRepository.findById(orderDetailsRequest.getProductId())
+                    .orElseThrow(() -> new NoSuchElementException("product id not found : " + orderDetailsRequest.getProductId()));
+            OrderDetails orderDetails = new OrderDetails();
+            orderDetails.setProduct(product);
+            orderDetails.setQuantity(orderDetailsRequest.getQuantity());
+            orderDetails.setOrder(order);
+            orderDetailsList.add(orderDetails);
+        }
+        order.setOrderDetails(orderDetailsList);
 
         //TODO 5 : Save Order Entity
+        Order savedOrder = orderRepository.saveAndFlush(order);
 
         //TODO 6 : Build Response
+        List<OrderDetailsResponse> detailsResponses = orderDetailsList.stream()
+                .map(od -> OrderDetailsResponse.builder()
+                        .orderId(od.getId())
+                        .productId(od.getProduct().getId())
+                        .quantity(od.getQuantity())
+                        .build()).toList();
 
-        return null;
+        return OrderResponse.builder()
+                .id(savedOrder.getId())
+                .dateTime(savedOrder.getDateTime())
+                .customerId(savedOrder.getCustomerId().getId())
+                .orderDetails(detailsResponses)
+                .build();
     }
 
     @Override

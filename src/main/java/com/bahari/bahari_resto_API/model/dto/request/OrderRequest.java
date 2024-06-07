@@ -1,5 +1,6 @@
 package com.bahari.bahari_resto_API.model.dto.request;
 
+import com.bahari.bahari_resto_API.model.dto.response.OrderDetailsResponse;
 import com.bahari.bahari_resto_API.model.entity.OrderDetails;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
