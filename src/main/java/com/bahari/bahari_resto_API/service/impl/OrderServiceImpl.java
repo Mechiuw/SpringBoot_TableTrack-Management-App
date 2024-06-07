@@ -1,5 +1,7 @@
 package com.bahari.bahari_resto_API.service.impl;
 
+import com.bahari.bahari_resto_API.exceptions.OrderNotFoundException;
+import com.bahari.bahari_resto_API.exceptions.OrderProcessingException;
 import com.bahari.bahari_resto_API.model.dto.request.OrderDetailsRequest;
 import com.bahari.bahari_resto_API.model.dto.request.OrderRequest;
 import com.bahari.bahari_resto_API.model.dto.response.OrderDetailsResponse;
@@ -13,13 +15,13 @@ import com.bahari.bahari_resto_API.repository.OrderDetailRepository;
 import com.bahari.bahari_resto_API.repository.OrderRepository;
 import com.bahari.bahari_resto_API.repository.ProductRepository;
 import com.bahari.bahari_resto_API.service.OrderService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +31,7 @@ public class OrderServiceImpl implements OrderService {
     private final ProductRepository productRepository;
     private final OrderDetailRepository orderDetailRepository;
 
+    @Valid
     private void validateOrderRequest(OrderRequest x){
         if(x == null){
             throw new IllegalArgumentException("OrderRequest cannot be null");
@@ -147,8 +150,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void delete(String id) {
-        Order orderDelete = orderRepository.findById(id).orElseThrow(
-                () -> new NoSuchElementException("not found such order with id : " + id));
-        orderRepository.delete(orderDelete);
+        try {
+            Order orderDelete = orderRepository.findById(id).orElseThrow(
+                    () -> new NoSuchElementException("not found such order with id : " + id));
+            orderRepository.delete(orderDelete);
+        } catch (NoSuchElementException e) {
+            throw new OrderNotFoundException("Order not found with id : " + id);
+        } catch (Exception e ){
+            throw new OrderProcessingException("Error deleting order with the id : " + id);
+        }
     }
 }
