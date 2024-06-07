@@ -91,7 +91,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getAll() {
-        return null;
+        return orderRepository.findAll();
     }
 
     @Override
