@@ -2,7 +2,6 @@ package com.bahari.bahari_resto_API.service.impl;
 
 import com.bahari.bahari_resto_API.model.dto.request.OrderDetailsRequest;
 import com.bahari.bahari_resto_API.model.dto.response.OrderDetailsResponse;
-import com.bahari.bahari_resto_API.model.dto.response.OrderResponse;
 import com.bahari.bahari_resto_API.model.entity.Order;
 import com.bahari.bahari_resto_API.model.entity.OrderDetails;
 import com.bahari.bahari_resto_API.model.entity.Product;
@@ -26,10 +25,10 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     @Override
     public OrderDetailsResponse create(OrderDetailsRequest orderDetailsRequest) {
         Order order = orderRepository.findById(orderDetailsRequest.getOrderId())
-                .orElseThrow(() -> new NoSuchElementException("not found such orders"));
+                .orElseThrow(() -> new NoSuchElementException("Order not found"));
 
         Product product = productRepository.findById(orderDetailsRequest.getProductId())
-                .orElseThrow(() -> new NoSuchElementException("Not found such product"));
+                .orElseThrow(() -> new NoSuchElementException("Product not found"));
 
         OrderDetails orderDetails = OrderDetails.builder()
                 .order(order)
@@ -89,8 +88,8 @@ public class OrderDetailServiceImpl implements OrderDetailService {
         return OrderDetailsResponse.builder()
                 .id(savedOrderDetails.getId())
                 .quantity(savedOrderDetails.getQuantity())
-                .orderId(savedOrderDetails.getId())
-                .productId(savedOrderDetails.getId())
+                .orderId(savedOrderDetails.getOrder().getId())
+                .productId(savedOrderDetails.getProduct().getId())
                 .build();
     }
 
@@ -102,6 +101,5 @@ public class OrderDetailServiceImpl implements OrderDetailService {
                 )));
 
         orderDetailRepository.delete(orderDetails);
-        System.out.println("successfully deleted");
     }
 }
