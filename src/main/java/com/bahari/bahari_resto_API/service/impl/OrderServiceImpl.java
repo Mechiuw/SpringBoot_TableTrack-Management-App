@@ -147,6 +147,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void delete(String id) {
-
+        Order orderDelete = orderRepository.findById(id).orElseThrow(
+                () -> new NoSuchElementException("not found such order with id : " + id));
+        orderRepository.delete(orderDelete);
     }
 }
