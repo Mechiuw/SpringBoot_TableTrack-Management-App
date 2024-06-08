@@ -2,7 +2,6 @@ package com.bahari.bahari_resto_API.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.Id;
 
 import java.util.UUID;
 

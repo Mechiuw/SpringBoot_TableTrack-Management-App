@@ -7,7 +7,6 @@ import com.bahari.bahari_resto_API.model.dto.response.CustomerResponse;
 import com.bahari.bahari_resto_API.model.entity.Customer;
 import com.bahari.bahari_resto_API.service.CustomerService;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

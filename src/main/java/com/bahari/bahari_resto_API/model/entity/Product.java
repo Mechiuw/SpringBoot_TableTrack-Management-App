@@ -32,5 +32,5 @@ public class Product {
     private EProductType productType;
 
     @OneToMany(mappedBy = "product" , cascade = CascadeType.PERSIST)
-    private List<Order> ordersList;
+    private List<OrderDetails> ordersList;
 }
