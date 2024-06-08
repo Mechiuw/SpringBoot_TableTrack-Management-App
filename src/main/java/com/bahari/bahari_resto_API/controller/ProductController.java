@@ -61,4 +61,9 @@ public class ProductController {
                         .data(productResponse)
                         .build());
     }
+
+    public void delete(String id){
+        productService.delete(id);
+        ResponseEntity.ok();
+    }
 }
