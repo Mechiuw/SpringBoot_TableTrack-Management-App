@@ -42,7 +42,7 @@ public class ProductController {
     }
 
     @GetMapping(EndPointApp.GET_BY_ID)
-    public ResponseEntity<?> getById(String id){
+    public ResponseEntity<?> getById(@PathVariable String id){
         ProductResponse productResponse = productService.getById(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.builder()
@@ -52,7 +52,8 @@ public class ProductController {
                         .build());
     }
 
-    public ResponseEntity<?> update(String id, ProductRequest productRequest){
+    @PutMapping(EndPointApp.PUT_BY_ID)
+    public ResponseEntity<?> update(@PathVariable String id,@RequestBody ProductRequest productRequest){
         ProductResponse productResponse = productService.update(id,productRequest);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.builder()
@@ -62,7 +63,8 @@ public class ProductController {
                         .build());
     }
 
-    public void delete(String id){
+    @DeleteMapping(EndPointApp.DELETE_BY_ID)
+    public void delete(@PathVariable String id){
         productService.delete(id);
         ResponseEntity.ok();
     }
