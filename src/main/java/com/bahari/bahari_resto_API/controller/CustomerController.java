@@ -37,7 +37,8 @@ public class CustomerController {
                 .body(CommonResponse.builder()
                         .statusCode(HttpStatus.OK.value())
                         .message("Successfully fetch data")
-                        .data(customerData));
+                        .data(customerData)
+                        .build());
     }
 
     @GetMapping(EndPointApp.GET_BY_ID)
