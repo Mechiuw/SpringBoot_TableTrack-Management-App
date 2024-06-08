@@ -44,4 +44,13 @@ public class OrderController {
                         .build());
     }
 
+    @GetMapping(EndPointApp.GET_BY_ID)
+    public ResponseEntity<?> getById(String id){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message(String.format("Successfully fetch data with id : %s",id))
+                        .build());
+    }
+
 }
