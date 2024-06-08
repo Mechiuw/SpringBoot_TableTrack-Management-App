@@ -30,7 +30,7 @@ public class StoreController {
                         .build());
     }
 
-    @GetMapping("/all")
+    @GetMapping(EndPointApp.GET_ALL)
     public ResponseEntity<?> getAll(){
         List<Store> storeResponseList = storeService.getAll();
         return ResponseEntity.status(HttpStatus.FOUND)

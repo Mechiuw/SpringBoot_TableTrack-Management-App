@@ -30,7 +30,7 @@ public class CustomerController {
                         .build());
     }
 
-    @GetMapping("/all")
+    @GetMapping(EndPointApp.GET_ALL)
     private ResponseEntity<?> getAll(){
         List<Customer> customerData = customerService.getAll();
         return ResponseEntity.status(HttpStatus.OK)
