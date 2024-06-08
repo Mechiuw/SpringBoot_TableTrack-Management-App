@@ -51,4 +51,14 @@ public class StoreController {
                         .data(storeResponse)
                         .build());
     }
+
+    public ResponseEntity<?> update(String id, StoreRequest storeRequest){
+        StoreResponse storeResponse = storeService.update(id, storeRequest);
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .body(CommonResponse.builder()
+                        .statusCode(HttpStatus.FOUND.value())
+                        .message(String.format("Successfully updated data with id : %s",id))
+                        .data(storeResponse)
+                        .build())
+    }
 }
