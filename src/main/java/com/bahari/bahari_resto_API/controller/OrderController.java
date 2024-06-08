@@ -46,10 +46,22 @@ public class OrderController {
 
     @GetMapping(EndPointApp.GET_BY_ID)
     public ResponseEntity<?> getById(String id){
+        OrderResponse orderResponse = orderService.getById(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.builder()
                         .statusCode(HttpStatus.OK.value())
                         .message(String.format("Successfully fetch data with id : %s",id))
+                        .data(orderResponse)
+                        .build());
+    }
+
+    @PutMapping(EndPointApp.PUT_BY_ID)
+    public ResponseEntity<?> update(@PathVariable String id,@RequestBody OrderRequest orderRequest){
+        OrderResponse orderResponse = orderService.update(id,orderRequest);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message(String.format("Successfully update data with id : %s",id))
                         .build());
     }
 
