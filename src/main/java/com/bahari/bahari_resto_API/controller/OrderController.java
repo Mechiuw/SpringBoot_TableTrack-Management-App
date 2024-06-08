@@ -4,6 +4,7 @@ import com.bahari.bahari_resto_API.constant.EndPointApp;
 import com.bahari.bahari_resto_API.model.dto.request.OrderRequest;
 import com.bahari.bahari_resto_API.model.dto.response.CommonResponse;
 import com.bahari.bahari_resto_API.model.dto.response.OrderResponse;
+import com.bahari.bahari_resto_API.model.entity.Order;
 import com.bahari.bahari_resto_API.repository.OrderRepository;
 import com.bahari.bahari_resto_API.service.OrderService;
 import lombok.Builder;
@@ -11,10 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,4 +32,16 @@ public class OrderController {
                         .data(orderResponse)
                         .build());
     }
+
+    @GetMapping(EndPointApp.GET_ALL)
+    public ResponseEntity<?> getAll(){
+        List<Order> orderList = orderService.getAll();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Successfully fetch all data")
+                        .data(orderList)
+                        .build());
+    }
+
 }
