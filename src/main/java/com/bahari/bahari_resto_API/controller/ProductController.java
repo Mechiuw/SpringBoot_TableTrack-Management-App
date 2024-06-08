@@ -41,5 +41,24 @@ public class ProductController {
                         .build());
     }
 
+    @GetMapping(EndPointApp.GET_BY_ID)
+    public ResponseEntity<?> getById(String id){
+        ProductResponse productResponse = productService.getById(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message(String.format("Successfully fetch data with id : %s",id))
+                        .data(productResponse)
+                        .build());
+    }
 
+    public ResponseEntity<?> update(String id, ProductRequest productRequest){
+        ProductResponse productResponse = productService.update(id,productRequest);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message(String.format("Successfully Updated data with id : %s",id))
+                        .data(productResponse)
+                        .build());
+    }
 }
