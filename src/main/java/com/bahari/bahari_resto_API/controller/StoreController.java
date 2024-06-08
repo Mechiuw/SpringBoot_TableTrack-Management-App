@@ -10,8 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,7 +20,8 @@ import java.util.List;
 public class StoreController {
     private final StoreService storeService;
 
-    public ResponseEntity<?> create(StoreRequest storeRequest){
+    @PostMapping
+    public ResponseEntity<?> create(@RequestBody StoreRequest storeRequest){
         StoreResponse storeResponse = storeService.create(storeRequest);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(CommonResponse.builder()
@@ -31,6 +31,7 @@ public class StoreController {
                         .build());
     }
 
+    @GetMapping("/all")
     public ResponseEntity<?> getAll(){
         List<Store> storeResponseList = storeService.getAll();
         return ResponseEntity.status(HttpStatus.FOUND)
@@ -42,7 +43,8 @@ public class StoreController {
     }
 
 
-    public ResponseEntity<?> getById(String id){
+    @GetMapping(EndPointApp.GET_BY_ID)
+    public ResponseEntity<?> getById(@PathVariable String id){
         StoreResponse storeResponse = storeService.getById(id);
         return ResponseEntity.status(HttpStatus.FOUND)
                 .body(CommonResponse.builder()
@@ -52,7 +54,8 @@ public class StoreController {
                         .build());
     }
 
-    public ResponseEntity<?> update(String id, StoreRequest storeRequest){
+    @PutMapping(EndPointApp.PUT_BY_ID)
+    public ResponseEntity<?> update(@PathVariable String id,@RequestBody StoreRequest storeRequest){
         StoreResponse storeResponse = storeService.update(id, storeRequest);
         return ResponseEntity.status(HttpStatus.FOUND)
                 .body(CommonResponse.builder()
@@ -62,7 +65,8 @@ public class StoreController {
                         .build());
     }
 
-    public void delete(String id){
+    @DeleteMapping(EndPointApp.DELETE_BY_ID)
+    public void delete(@PathVariable String id){
         storeService.delete(id);
         ResponseEntity.status(HttpStatus.OK).body(
                 CommonResponse.builder()
