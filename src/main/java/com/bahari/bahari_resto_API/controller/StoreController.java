@@ -59,6 +59,16 @@ public class StoreController {
                         .statusCode(HttpStatus.FOUND.value())
                         .message(String.format("Successfully updated data with id : %s",id))
                         .data(storeResponse)
-                        .build())
+                        .build());
+    }
+
+    public void delete(String id){
+        storeService.delete(id);
+        ResponseEntity.status(HttpStatus.OK).body(
+                CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Successfully deleted ")
+                        .build()
+        );
     }
 }
