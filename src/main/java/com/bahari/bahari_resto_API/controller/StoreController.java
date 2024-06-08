@@ -33,11 +33,22 @@ public class StoreController {
 
     public ResponseEntity<?> getAll(){
         List<Store> storeResponseList = storeService.getAll();
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(HttpStatus.FOUND)
                 .body(CommonResponse.builder()
-                        .statusCode(HttpStatus.OK.value())
+                        .statusCode(HttpStatus.FOUND.value())
                         .message("Successfully fetch all data")
                         .data(storeResponseList)
+                        .build());
+    }
+
+
+    public ResponseEntity<?> getById(String id){
+        StoreResponse storeResponse = storeService.getById(id);
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .body(CommonResponse.builder()
+                        .statusCode(HttpStatus.FOUND.value())
+                        .message(String.format("Successfully fetch data with id : %s",id))
+                        .data(storeResponse)
                         .build());
     }
 }
