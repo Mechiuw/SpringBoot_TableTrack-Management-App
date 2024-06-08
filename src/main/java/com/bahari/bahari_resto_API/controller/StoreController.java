@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(EndPointApp.STORE)
@@ -26,6 +28,16 @@ public class StoreController {
                         .statusCode(HttpStatus.CREATED.value())
                         .message("Successfully created store")
                         .data(storeResponse)
+                        .build());
+    }
+
+    public ResponseEntity<?> getAll(){
+        List<Store> storeResponseList = storeService.getAll();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Successfully fetch all data")
+                        .data(storeResponseList)
                         .build());
     }
 }
