@@ -65,4 +65,13 @@ public class OrderController {
                         .build());
     }
 
+    @DeleteMapping(EndPointApp.DELETE_BY_ID)
+    public void delete(@PathVariable String id){
+        orderService.delete(id);
+        ResponseEntity.status(HttpStatus.OK)
+                .body(CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message(String.format("Successfully delete data with id : %s",id))
+                        .build());
+    }
 }
