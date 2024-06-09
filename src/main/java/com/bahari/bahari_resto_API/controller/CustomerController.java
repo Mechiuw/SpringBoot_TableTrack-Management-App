@@ -48,7 +48,8 @@ public class CustomerController {
                 .body(CommonResponse.builder()
                         .statusCode(HttpStatus.OK.value())
                         .message("Successfully fetch data")
-                        .data(customerResponse));
+                        .data(customerResponse)
+                        .build());
     }
 
     @PutMapping(EndPointApp.PUT_BY_ID)
@@ -58,7 +59,8 @@ public class CustomerController {
                 .body(CommonResponse.builder()
                         .statusCode(HttpStatus.OK.value())
                         .message("Successfully update data")
-                        .data(customerResponse));
+                        .data(customerResponse)
+                        .build());
     }
 
     @DeleteMapping(EndPointApp.DELETE_BY_ID)
@@ -67,6 +69,7 @@ public class CustomerController {
         ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.builder()
                         .statusCode(HttpStatus.OK.value())
-                        .message("Successfully delete data"));
+                        .message("Successfully delete data")
+                        .build());
     }
 }

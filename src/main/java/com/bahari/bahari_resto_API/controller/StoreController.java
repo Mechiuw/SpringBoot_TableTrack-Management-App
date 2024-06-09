@@ -33,9 +33,9 @@ public class StoreController {
     @GetMapping(EndPointApp.GET_ALL)
     public ResponseEntity<?> getAll(){
         List<Store> storeResponseList = storeService.getAll();
-        return ResponseEntity.status(HttpStatus.FOUND)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.builder()
-                        .statusCode(HttpStatus.FOUND.value())
+                        .statusCode(HttpStatus.OK.value())
                         .message("Successfully fetch all data")
                         .data(storeResponseList)
                         .build());
@@ -45,9 +45,9 @@ public class StoreController {
     @GetMapping(EndPointApp.GET_BY_ID)
     public ResponseEntity<?> getById(@PathVariable String id){
         StoreResponse storeResponse = storeService.getById(id);
-        return ResponseEntity.status(HttpStatus.FOUND)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.builder()
-                        .statusCode(HttpStatus.FOUND.value())
+                        .statusCode(HttpStatus.OK.value())
                         .message(String.format("Successfully fetch data with id : %s",id))
                         .data(storeResponse)
                         .build());
@@ -56,9 +56,9 @@ public class StoreController {
     @PutMapping(EndPointApp.PUT_BY_ID)
     public ResponseEntity<?> update(@PathVariable String id,@RequestBody StoreRequest storeRequest){
         StoreResponse storeResponse = storeService.update(id, storeRequest);
-        return ResponseEntity.status(HttpStatus.FOUND)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.builder()
-                        .statusCode(HttpStatus.FOUND.value())
+                        .statusCode(HttpStatus.OK.value())
                         .message(String.format("Successfully updated data with id : %s",id))
                         .data(storeResponse)
                         .build());
