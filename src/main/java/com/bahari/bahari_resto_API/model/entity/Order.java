@@ -2,6 +2,7 @@ package com.bahari.bahari_resto_API.model.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,5 +33,7 @@ public class Order {
     private Customer customerId;
 
     @OneToMany(mappedBy ="order", cascade = CascadeType.PERSIST)
+    @JsonManagedReference
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<OrderDetails> orderDetails;
 }
