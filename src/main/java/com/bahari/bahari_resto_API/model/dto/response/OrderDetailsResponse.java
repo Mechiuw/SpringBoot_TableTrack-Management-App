@@ -14,4 +14,5 @@ public class OrderDetailsResponse {
     private Integer quantity;
     private String orderId;
     private String productId;
+    private Integer totalPrice;
 }

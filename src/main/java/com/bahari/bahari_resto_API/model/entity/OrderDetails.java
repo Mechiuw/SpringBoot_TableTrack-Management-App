@@ -30,4 +30,6 @@ public class OrderDetails {
     @JsonBackReference
     private Product product;
 
+    @Column(name = "totalPrice",nullable = false)
+    private Integer totalPrice;
 }
