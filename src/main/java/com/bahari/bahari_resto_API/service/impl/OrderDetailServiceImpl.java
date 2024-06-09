@@ -34,6 +34,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
                 .order(order)
                 .product(product)
                 .quantity(orderDetailsRequest.getQuantity())
+                .totalPrice(product.getPrice() * orderDetailsRequest.getQuantity())
                 .build();
 
         OrderDetails savedOrderDetails = orderDetailRepository.save(orderDetails);
@@ -43,6 +44,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
                 .orderId(savedOrderDetails.getOrder().getId())
                 .productId(savedOrderDetails.getProduct().getId())
                 .quantity(savedOrderDetails.getQuantity())
+                .totalPrice(savedOrderDetails.getTotalPrice())
                 .build();
     }
 
@@ -60,6 +62,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
                 .quantity(orderDetails.getQuantity())
                 .productId(orderDetails.getProduct().getId())
                 .orderId(orderDetails.getOrder().getId())
+                .totalPrice(orderDetails.getTotalPrice())
                 .build();
     }
 
@@ -82,6 +85,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
         orderDetails.setQuantity(orderDetailsRequest.getQuantity());
         orderDetails.setOrder(order);
         orderDetails.setProduct(product);
+        orderDetails.setTotalPrice(orderDetailsRequest.getQuantity() * product.getPrice());
 
         OrderDetails savedOrderDetails = orderDetailRepository.saveAndFlush(orderDetails);
 
@@ -90,6 +94,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
                 .quantity(savedOrderDetails.getQuantity())
                 .orderId(savedOrderDetails.getOrder().getId())
                 .productId(savedOrderDetails.getProduct().getId())
+                .totalPrice(savedOrderDetails.getTotalPrice())
                 .build();
     }
 
