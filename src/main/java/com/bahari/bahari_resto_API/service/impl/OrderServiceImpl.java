@@ -39,9 +39,6 @@ public class OrderServiceImpl implements OrderService {
         if(x.getDateTime() == null){
             throw new IllegalArgumentException("OrderRequest cannot be null");
         }
-        if(x.getOrderDetails() == null || x.getOrderDetails().isEmpty()){
-            throw new IllegalArgumentException("order details cannot be null or empty");
-        }
         if(x.getCustomerId() == null || x.getCustomerId().isEmpty()){
             throw new IllegalArgumentException("customer id cannot be null");
         }
@@ -67,10 +64,11 @@ public class OrderServiceImpl implements OrderService {
         for(OrderDetailsRequest orderDetailsRequest : orderRequest.getOrderDetails()){
             Product product = productRepository.findById(orderDetailsRequest.getProductId())
                     .orElseThrow(() -> new NoSuchElementException(String.format("product id not found : %s" ,orderDetailsRequest.getProductId())));
-            OrderDetails orderDetails = new OrderDetails();
-            orderDetails.setProduct(product);
-            orderDetails.setQuantity(orderDetailsRequest.getQuantity());
-            orderDetails.setOrder(order);
+            OrderDetails orderDetails = OrderDetails.builder()
+                    .order(order)
+                    .product(product)
+                    .quantity(orderDetailsRequest.getQuantity())
+                    .build();
             orderDetailsList.add(orderDetails);
         }
         order.setOrderDetails(orderDetailsList);
