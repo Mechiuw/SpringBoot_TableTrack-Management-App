@@ -41,7 +41,7 @@ public class OrderController {
     }
 
     @GetMapping(EndPointApp.GET_BY_ID)
-    public ResponseEntity<?> getById(String id){
+    public ResponseEntity<?> getById(@PathVariable String id){
         OrderResponse orderResponse = orderService.getById(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.builder()
