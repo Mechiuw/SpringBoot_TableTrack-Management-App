@@ -64,10 +64,12 @@ public class OrderServiceImpl implements OrderService {
         for(OrderDetailsRequest orderDetailsRequest : orderRequest.getOrderDetails()){
             Product product = productRepository.findById(orderDetailsRequest.getProductId())
                     .orElseThrow(() -> new NoSuchElementException(String.format("product id not found : %s" ,orderDetailsRequest.getProductId())));
+            Integer totalPrices = product.getPrice() * orderDetailsRequest.getQuantity();
             OrderDetails orderDetails = OrderDetails.builder()
                     .order(order)
                     .product(product)
                     .quantity(orderDetailsRequest.getQuantity())
+                    .totalPrice(totalPrices)
                     .build();
             orderDetailsList.add(orderDetails);
         }
@@ -83,6 +85,7 @@ public class OrderServiceImpl implements OrderService {
                         .orderId(od.getOrder().getId())
                         .productId(od.getProduct().getId())
                         .quantity(od.getQuantity())
+                        .totalPrice(od.getTotalPrice())
                         .build()).toList();
 
         return OrderResponse.builder()

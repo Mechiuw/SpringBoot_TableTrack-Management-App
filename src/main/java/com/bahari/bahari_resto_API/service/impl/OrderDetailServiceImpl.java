@@ -9,6 +9,8 @@ import com.bahari.bahari_resto_API.repository.OrderDetailRepository;
 import com.bahari.bahari_resto_API.repository.OrderRepository;
 import com.bahari.bahari_resto_API.repository.ProductRepository;
 import com.bahari.bahari_resto_API.service.OrderDetailService;
+import jakarta.transaction.RollbackException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     private final ProductRepository productRepository;
 
     @Override
+    @Transactional(rollbackOn = RollbackException.class)
     public OrderDetailsResponse create(OrderDetailsRequest orderDetailsRequest) {
         Order order = orderRepository.findById(orderDetailsRequest.getOrderId())
                 .orElseThrow(() -> new NoSuchElementException("Order not found"));
@@ -30,14 +33,16 @@ public class OrderDetailServiceImpl implements OrderDetailService {
         Product product = productRepository.findById(orderDetailsRequest.getProductId())
                 .orElseThrow(() -> new NoSuchElementException("Product not found"));
 
+        Integer totalPrices = product.getPrice() * orderDetailsRequest.getQuantity();
+
         OrderDetails orderDetails = OrderDetails.builder()
                 .order(order)
                 .product(product)
                 .quantity(orderDetailsRequest.getQuantity())
-                .totalPrice(product.getPrice() * orderDetailsRequest.getQuantity())
+                .totalPrice(totalPrices)
                 .build();
 
-        OrderDetails savedOrderDetails = orderDetailRepository.save(orderDetails);
+        OrderDetails savedOrderDetails = orderDetailRepository.saveAndFlush(orderDetails);
 
         return OrderDetailsResponse.builder()
                 .id(savedOrderDetails.getId())
