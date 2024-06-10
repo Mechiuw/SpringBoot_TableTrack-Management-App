@@ -1,6 +1,6 @@
-# Project Name
+# Restaurant management App
 
-Welcome to the Project Name repository! This project is built using Spring Boot and Java Streams to provide a robust and scalable backend solution. The primary focus is on basic CRUD (Create, Read, Update, Delete) operations, with plans to introduce more complex features such as pagination and other advanced functionalities in the future.
+Welcome to the Restaurant management App repository! This project is built using Spring Boot and Java Streams to provide a robust and scalable backend solution. The primary focus is on basic CRUD (Create, Read, Update, Delete) operations, with plans to introduce more complex features such as pagination and other advanced functionalities in the future.
 
 ## Table of Contents
 
@@ -25,21 +25,21 @@ This project is a Spring Boot application designed to handle basic CRUD operatio
 ## Usage
 
 The application currently supports basic CRUD operations. Here are the available endpoints:
-
-- **Create**: `POST /api/resource` - Add a new resource.
-- **Read**: `GET /api/resource/{id}` - Retrieve a resource by its ID.
-- **Update**: `PUT /api/resource/{id}` - Update an existing resource.
-- **Delete**: `DELETE /api/resource/{id}` - Delete a resource by its ID.
+***EXAMPLE***
+- **Create**: `POST /api/customer` - Add a new customer.
+- **Read**: `GET /api/customer/{id}` - Retrieve a customer by its ID.
+- **Update**: `PUT /api/customer/{id}` - Update an existing customer.
+- **Delete**: `DELETE /api/customer/{id}` - Delete a customer by its ID.
 
 ## Features
 
 ### Current Features
 
 - **Basic CRUD Operations**: 
-  - Create new resources.
-  - Retrieve existing resources.
-  - Update resources.
-  - Delete resources.
+  - Create new customer.
+  - Retrieve existing customer.
+  - Update customer.
+  - Delete customer.
 
 ### Upcoming Features
 
