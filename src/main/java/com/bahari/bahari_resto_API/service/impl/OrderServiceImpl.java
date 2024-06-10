@@ -111,6 +111,7 @@ public class OrderServiceImpl implements OrderService {
                         .orderId(order.getId())
                         .quantity(orderDetails.getQuantity())
                         .productId(orderDetails.getProduct().getId())
+                        .totalPrice(orderDetails.getTotalPrice())
                         .build()).toList();
         return OrderResponse.builder()
                 .id(order.getId())
@@ -136,6 +137,7 @@ public class OrderServiceImpl implements OrderService {
                                 .orderId(orderDetailsMap.getOrder().getId())
                                 .quantity(orderDetailsMap.getQuantity())
                                 .productId(orderDetailsMap.getProduct().getId())
+                                .totalPrice(orderDetailsMap.getTotalPrice())
                                 .build()).toList();
 
         order.setDateTime(orderRequest.getDateTime());
