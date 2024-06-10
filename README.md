@@ -1,5 +1,5 @@
-# Restaurant-Management-App
-The Restaurant Management App is a comprehensive solution designed to manage restaurant operations efficiently. Currently developed using Spring Boot in a monolithic architecture, it leverages Java Streams for business logic and CRUD operations, PostgreSQL as the database, and Lombok to minimize boilerplate code. Future enhancements include integrating a React frontend and a React Native mobile application.
+# TableTrack-App
+The TableTrack Management App is a comprehensive solution designed to manage restaurant operations efficiently. Currently developed using Spring Boot in a monolithic architecture, it leverages Java Streams for business logic and CRUD operations, PostgreSQL as the database, and Lombok to minimize boilerplate code. Future enhancements include integrating a React frontend and a React Native mobile application.
 
 # Features #
 Reservation Management: Seamlessly manage restaurant reservations.
