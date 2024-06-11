@@ -1,7 +1,11 @@
 package com.bahari.bahari_resto_API.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -27,4 +31,9 @@ public class Store {
 
     @Column(name = "address", nullable = false)
     private String address;
+
+    @OneToMany(mappedBy = "storeId",cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonManagedReference
+    private List<Import> importList;
 }

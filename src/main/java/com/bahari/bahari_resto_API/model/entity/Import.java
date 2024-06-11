@@ -1,7 +1,7 @@
 package com.bahari.bahari_resto_API.model.entity;
 
-import com.bahari.bahari_resto_API.constant.EShipment;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -15,27 +15,25 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "m_container")
-public class Container {
+@Table(name = "t_import")
+public class Import {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(name = "containerCode",nullable = false)
-    private String containerCode;
-
-    @Column(name = "shipment",nullable = false)
-    @Enumerated(EnumType.STRING)
-    private EShipment shipment;
-
-    @JoinColumn(name = "import",nullable = false,referencedColumnName = "id")
+    @JoinColumn(name = "store",nullable = false,referencedColumnName = "id")
     @JsonBackReference
     @ManyToOne
-    private Import importId;
+    private Store storeId;
 
-    @OneToMany(mappedBy = "container", cascade = CascadeType.ALL)
+    @JoinColumn(name = "warehouse",nullable = false,referencedColumnName = "id")
+    @JsonBackReference
+    @ManyToOne
+    private Warehouse warehouseId;
+
+    @OneToMany(mappedBy = "importId", cascade = CascadeType.ALL)
     @JsonManagedReference
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private List<RawMaterial> rawMaterialList;
+    private List<Container> containers;
 }

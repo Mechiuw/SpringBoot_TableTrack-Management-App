@@ -23,7 +23,7 @@ public class Warehouse {
     @Column(name = "address",nullable = false)
     private String address;
 
-    @Column(name = "phoneNum",nullable = false)
+    @Column(name = "phone_num",nullable = false)
     private String phoneNum;
 
     @Column(name = "country", nullable = false)
