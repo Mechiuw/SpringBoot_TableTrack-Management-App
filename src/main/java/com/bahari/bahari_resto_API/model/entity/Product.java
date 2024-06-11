@@ -26,9 +26,11 @@ public class Product {
     private Integer price;
 
     @Column(name = "distribution-type", nullable = false)
+    @Enumerated(EnumType.STRING)
     private DistributionType distributionType;
 
     @Column(name = "product-type",nullable = false)
+    @Enumerated(EnumType.STRING)
     private EProductType productType;
 
     @OneToMany(mappedBy = "product" , cascade = CascadeType.PERSIST)
