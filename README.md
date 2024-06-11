@@ -1,6 +1,6 @@
-# Restaurant management App
+# TableTrack management App Repo
 
-Welcome to the Restaurant management App repository! This project is built using Spring Boot and Java Streams to provide a robust and scalable backend solution. The primary focus is on basic CRUD (Create, Read, Update, Delete) operations, with plans to introduce more complex features such as pagination and other advanced functionalities in the future.
+Welcome to the TableTrack management App repository! This project is built using Spring Boot and Java Streams to provide a robust and scalable backend solution. The primary focus is on basic CRUD (Create, Read, Update, Delete) operations, with plans to introduce more complex features such as pagination and other advanced functionalities in the future.
 
 ## Table of Contents
 
