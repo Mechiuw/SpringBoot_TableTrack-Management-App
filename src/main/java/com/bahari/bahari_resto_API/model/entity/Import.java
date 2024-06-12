@@ -25,12 +25,12 @@ public class Import {
     @JoinColumn(name = "store",nullable = false,referencedColumnName = "id")
     @JsonBackReference
     @ManyToOne
-    private Store storeId;
+    private Store store;
 
     @JoinColumn(name = "warehouse",nullable = false,referencedColumnName = "id")
     @JsonBackReference
     @ManyToOne
-    private Warehouse warehouseId;
+    private Warehouse warehouse;
 
     @OneToMany(mappedBy = "importId", cascade = CascadeType.ALL)
     @JsonManagedReference

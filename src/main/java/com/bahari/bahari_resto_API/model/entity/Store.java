@@ -32,8 +32,5 @@ public class Store {
     @Column(name = "address", nullable = false)
     private String address;
 
-    @OneToMany(mappedBy = "storeId",cascade = CascadeType.ALL)
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @JsonManagedReference
-    private List<Import> importList;
+
 }
