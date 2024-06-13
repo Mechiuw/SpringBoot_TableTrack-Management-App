@@ -1,0 +1,32 @@
+{
+    "storeId": "store_id_here",
+    "warehouseId": "warehouse_id_here",
+    "containers": [
+        {
+            "containerCode": "ABC123",
+            "shipment": "AIR",
+            "rawMaterialList": [
+                {
+                    "name": "Raw Material A",
+                    "expDate": "2024-12-31",
+                    "price": 100,
+                    "manufacture": "Manufacturer X",
+                    "quantity": "100 units",
+                    "distributionType": "DOMESTIC"
+                },
+                {
+                    "name": "Raw Material B",
+                    "expDate": "2024-10-15",
+                    "price": 80,
+                    "manufacture": "Manufacturer Y",
+                    "quantity": "50 units",
+                    "distributionType": "INTERNATIONAL"
+                }
+            ]
+        },
+        {
+            "containerCode": "XYZ456",
+            "shipment": "SEA"
+        }
+    ]
+}
