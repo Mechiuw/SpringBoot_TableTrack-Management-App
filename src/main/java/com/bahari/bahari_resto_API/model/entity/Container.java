@@ -29,11 +29,6 @@ public class Container {
     @Enumerated(EnumType.STRING)
     private EShipment shipment;
 
-    @JoinColumn(name = "importId",nullable = false,referencedColumnName = "id")
-    @JsonBackReference
-    @ManyToOne
-    private Import importId;
-
     @ManyToOne
     @JoinColumn(name = "warehouseId", nullable = false,referencedColumnName = "id")
     @JsonBackReference
