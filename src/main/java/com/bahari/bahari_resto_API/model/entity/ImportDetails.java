@@ -1,9 +1,9 @@
 package com.bahari.bahari_resto_API.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -18,6 +18,17 @@ public class ImportDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(name = "time", nullable = false)
-    private LocalDateTime time;
+    @Column(name = "boarded", nullable = false)
+    private Date boarded;
+
+    @Column(name = "arrival",nullable = false)
+    private Date arrival;
+
+    @Column(name = "tax",nullable = false)
+    private Integer Tax;
+
+    @JoinColumn(name = "importId",referencedColumnName = "id")
+    @ManyToOne
+    @JsonBackReference
+    private Import importId;
 }
