@@ -29,13 +29,19 @@ public class Container {
     @Enumerated(EnumType.STRING)
     private EShipment shipment;
 
-    @JoinColumn(name = "import",nullable = false,referencedColumnName = "id")
+    @JoinColumn(name = "importId",nullable = false,referencedColumnName = "id")
     @JsonBackReference
     @ManyToOne
     private Import importId;
+
+    @ManyToOne
+    @JoinColumn(name = "warehouseId", nullable = false,referencedColumnName = "id")
+    @JsonBackReference
+    private Warehouse warehouseId;
 
     @OneToMany(mappedBy = "container", cascade = CascadeType.ALL)
     @JsonManagedReference
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<RawMaterial> rawMaterialList;
+
 }

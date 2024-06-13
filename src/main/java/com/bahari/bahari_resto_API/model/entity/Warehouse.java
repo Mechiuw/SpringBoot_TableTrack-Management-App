@@ -1,8 +1,12 @@
 package com.bahari.bahari_resto_API.model.entity;
 
 import com.bahari.bahari_resto_API.constant.ECountry;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -29,4 +33,9 @@ public class Warehouse {
     @Column(name = "country", nullable = false)
     @Enumerated(EnumType.STRING)
     private ECountry country;
+
+    @OneToMany(mappedBy = "warehouseId",cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private List<Container> containerList;
 }
