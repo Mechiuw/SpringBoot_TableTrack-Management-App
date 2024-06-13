@@ -25,6 +25,12 @@ public class RawMaterial {
     @Column(name = "expDate",nullable = false)
     private Date expDate;
 
+    @Column(name = "price",nullable = false)
+    private Integer price;
+
+    @Column(name = "manufacture",nullable = false)
+    private String manufacture;
+
     @Column(name = "distributionType",nullable = false)
     @Enumerated(EnumType.STRING)
     private DistributionType distributionType;
