@@ -31,6 +31,9 @@ public class RawMaterial {
     @Column(name = "manufacture",nullable = false)
     private String manufacture;
 
+    @Column(name = "quantity",nullable = false)
+    private String quantity;
+
     @Column(name = "distributionType",nullable = false)
     @Enumerated(EnumType.STRING)
     private DistributionType distributionType;

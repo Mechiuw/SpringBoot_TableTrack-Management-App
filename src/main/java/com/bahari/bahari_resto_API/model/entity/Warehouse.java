@@ -37,5 +37,5 @@ public class Warehouse {
     @OneToMany(mappedBy = "warehouseId",cascade = CascadeType.ALL)
     @JsonManagedReference
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private List<Container> containerList;
+    private List<Container> containers;
 }

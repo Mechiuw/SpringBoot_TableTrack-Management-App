@@ -15,6 +15,6 @@ import lombok.NoArgsConstructor;
 public class ContainerRequest {
     private String containerCode;
     private EShipment eshipment;
-    private Warehouse warehouse;
+    private Warehouse warehouseId;
     private Import importId;
 }

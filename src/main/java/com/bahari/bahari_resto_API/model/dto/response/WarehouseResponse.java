@@ -1,4 +1,4 @@
-package com.bahari.bahari_resto_API.model.dto.request;
+package com.bahari.bahari_resto_API.model.dto.response;
 
 import com.bahari.bahari_resto_API.constant.ECountry;
 import lombok.AllArgsConstructor;
@@ -6,15 +6,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder(toBuilder = true)
-public class WarehouseRequest {
+public class WarehouseResponse {
+    private String id;
     private String name;
     private String address;
     private String phoneNum;
-    private ECountry country;
+    private ECountry eCountry;
 }
