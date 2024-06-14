@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -17,12 +18,32 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public WarehouseResponse create(WarehouseRequest warehouseRequest) {
-        return null;
+        Warehouse warehouse = Warehouse.builder()
+                .name(warehouseRequest.getName())
+                .address(warehouseRequest.getAddress())
+                .phoneNum(warehouseRequest.getPhoneNum())
+                .country(warehouseRequest.getCountry())
+                .build();
+        warehouseRepository.save(warehouse);
+        return WarehouseResponse.builder()
+                .id(warehouse.getId())
+                .name(warehouse.getName())
+                .address(warehouse.getAddress())
+                .phoneNum(warehouse.getPhoneNum())
+                .eCountry(warehouse.getCountry())
+                .build();
     }
 
     @Override
     public WarehouseResponse getById(String id) {
-        return null;
+        Warehouse warehouse = warehouseRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(String.format("no warehouse found with id : %s",id)));
+        return WarehouseResponse.builder()
+                .id(warehouse.getId())
+                .name(warehouse.getName())
+                .phoneNum(warehouse.getPhoneNum())
+                .eCountry(warehouse.getCountry())
+                .build();
     }
 
     @Override
