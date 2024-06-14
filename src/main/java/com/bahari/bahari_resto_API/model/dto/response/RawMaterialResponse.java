@@ -18,7 +18,7 @@ public class RawMaterialResponse {
     private Date expDate;
     private Integer price;
     private String manufacture;
-    private String quantity;
+    private String stocks;
     private DistributionType distributionType;
     private String containerId;
 }

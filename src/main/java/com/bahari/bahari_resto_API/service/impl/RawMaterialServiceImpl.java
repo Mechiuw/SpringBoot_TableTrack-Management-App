@@ -3,6 +3,7 @@ package com.bahari.bahari_resto_API.service.impl;
 import com.bahari.bahari_resto_API.model.dto.request.RawMaterialRequest;
 import com.bahari.bahari_resto_API.model.dto.response.RawMaterialResponse;
 import com.bahari.bahari_resto_API.model.entity.RawMaterial;
+import com.bahari.bahari_resto_API.repository.ContainerRepository;
 import com.bahari.bahari_resto_API.repository.RawMaterialRepository;
 import com.bahari.bahari_resto_API.service.RawMaterialService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,23 @@ public class RawMaterialServiceImpl implements RawMaterialService {
 
     @Override
     public RawMaterialResponse create(RawMaterialRequest rawMaterialRequest) {
-        return null;
+        RawMaterial rawMaterial = RawMaterial.builder()
+                .name(rawMaterialRequest.getName())
+                .expDate(rawMaterialRequest.getExpDate())
+                .price(rawMaterialRequest.getPrice())
+                .manufacture(rawMaterialRequest.getManufacture())
+                .stocks(rawMaterialRequest.getStocks())
+                .distributionType(rawMaterialRequest.getDistributionType())
+                .build();
+        rawMaterialRepository.save(rawMaterial);
+        return RawMaterialResponse.builder()
+                .name(rawMaterial.getName())
+                .expDate(rawMaterial.getExpDate())
+                .price(rawMaterial.getPrice())
+                .manufacture(rawMaterial.getManufacture())
+                .stocks(rawMaterial.getStocks())
+                .distributionType(rawMaterial.getDistributionType())
+                .build();
     }
 
     @Override

@@ -32,7 +32,7 @@ public class RawMaterial {
     private String manufacture;
 
     @Column(name = "quantity",nullable = false)
-    private String quantity;
+    private String stocks;
 
     @Column(name = "distributionType",nullable = false)
     @Enumerated(EnumType.STRING)

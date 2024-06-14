@@ -14,11 +14,14 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RawMaterialRequest {
+    // save entity
     private String name;
     private Date expDate;
     private Integer price;
     private String manufacture;
-    private String quantity;
+    private String stocks;
     private DistributionType distributionType;
+    //
+    //update entity
     private String containerId;
 }
