@@ -33,6 +33,7 @@ public class RawMaterialServiceImpl implements RawMaterialService {
                 .build();
         rawMaterialRepository.save(rawMaterial);
         return RawMaterialResponse.builder()
+                .id(rawMaterial.getId())
                 .name(rawMaterial.getName())
                 .expDate(rawMaterial.getExpDate())
                 .price(rawMaterial.getPrice())
@@ -48,6 +49,7 @@ public class RawMaterialServiceImpl implements RawMaterialService {
                 .orElseThrow(() ->
                         new NoSuchElementException(String.format("not found any raw material with id : %s",id)));
         return RawMaterialResponse.builder()
+                .id(rawMaterial.getId())
                 .name(rawMaterial.getName())
                 .expDate(rawMaterial.getExpDate())
                 .price(rawMaterial.getPrice())
@@ -73,7 +75,7 @@ public class RawMaterialServiceImpl implements RawMaterialService {
         rawMaterial.setStocks(rawMaterialRequest.getStocks());
         rawMaterial.setDistributionType(rawMaterialRequest.getDistributionType());
 
-        RawMaterial updatedRawMaterial = rawMaterialRepository.save(rawMaterial);
+        RawMaterial updatedRawMaterial = rawMaterialRepository.saveAndFlush(rawMaterial);
 
         return RawMaterialResponse.builder()
                 .id(updatedRawMaterial.getId())
@@ -121,13 +123,14 @@ public class RawMaterialServiceImpl implements RawMaterialService {
         rawMaterial.setContainer(null);
         RawMaterial savedRawMaterial = rawMaterialRepository.save(rawMaterial);
         return RawMaterialResponse.builder()
+                .id(savedRawMaterial.getId())
                 .name(savedRawMaterial.getName())
                 .expDate(savedRawMaterial.getExpDate())
                 .price(savedRawMaterial.getPrice())
                 .manufacture(savedRawMaterial.getManufacture())
                 .stocks(savedRawMaterial.getStocks())
                 .distributionType(savedRawMaterial.getDistributionType())
-                .containerId(savedRawMaterial.getContainer().getId())
+                .containerId(savedRawMaterial.getContainer() != null ? savedRawMaterial.getContainer().getId() : null)
                 .build();
     }
 }

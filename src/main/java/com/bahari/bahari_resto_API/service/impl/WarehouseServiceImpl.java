@@ -48,12 +48,25 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public List<Warehouse> getAll() {
-        return null;
+        return warehouseRepository.findAll();
     }
 
     @Override
     public WarehouseResponse update(String id, WarehouseRequest warehouseRequest) {
-        return null;
+        Warehouse warehouse = warehouseRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(String.format("no warehouse found with id : %s",id)));
+        warehouse.setName(warehouseRequest.getName());
+        warehouse.setAddress(warehouseRequest.getAddress());
+        warehouse.setCountry(warehouseRequest.getCountry());
+        warehouse.setPhoneNum(warehouseRequest.getPhoneNum());
+        Warehouse savedWarehouse = warehouseRepository.saveAndFlush(warehouse);
+        return WarehouseResponse.builder()
+                .id(savedWarehouse.getId())
+                .name(savedWarehouse.getName())
+                .address(savedWarehouse.getAddress())
+                .eCountry(savedWarehouse.getCountry())
+                .phoneNum(savedWarehouse.getPhoneNum())
+                .build();
     }
 
     @Override
