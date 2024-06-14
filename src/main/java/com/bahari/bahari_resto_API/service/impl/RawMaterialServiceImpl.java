@@ -112,4 +112,22 @@ public class RawMaterialServiceImpl implements RawMaterialService {
                 .containerId(updateContainerToRawMaterial.getContainer().getId())
                 .build();
     }
+
+    @Override
+    public RawMaterialResponse moveFromContainer(String materialId) {
+        RawMaterial rawMaterial = rawMaterialRepository.findById(materialId)
+                .orElseThrow(() -> new NoSuchElementException(String.format("not found material with id : %s",materialId)));
+
+        rawMaterial.setContainer(null);
+        RawMaterial savedRawMaterial = rawMaterialRepository.save(rawMaterial);
+        return RawMaterialResponse.builder()
+                .name(savedRawMaterial.getName())
+                .expDate(savedRawMaterial.getExpDate())
+                .price(savedRawMaterial.getPrice())
+                .manufacture(savedRawMaterial.getManufacture())
+                .stocks(savedRawMaterial.getStocks())
+                .distributionType(savedRawMaterial.getDistributionType())
+                .containerId(savedRawMaterial.getContainer().getId())
+                .build();
+    }
 }
