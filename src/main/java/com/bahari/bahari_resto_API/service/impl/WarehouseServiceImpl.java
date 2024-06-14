@@ -71,6 +71,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public void delete(String id) {
-
+        Warehouse warehouse = warehouseRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(String.format("not found warehouse with id : %s",id)));
+        warehouseRepository.delete(warehouse);
     }
 }
