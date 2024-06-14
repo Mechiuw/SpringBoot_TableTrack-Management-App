@@ -17,5 +17,5 @@ public interface RawMaterialService {
 
     void delete(String id);
 
-    RawMaterialResponse moveToContainer(String materialId, String containerId, RawMaterialRequest rawMaterialRequest);
+    RawMaterialResponse moveToContainer(String materialId, String containerId);
 }

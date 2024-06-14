@@ -2,20 +2,24 @@ package com.bahari.bahari_resto_API.service.impl;
 
 import com.bahari.bahari_resto_API.model.dto.request.RawMaterialRequest;
 import com.bahari.bahari_resto_API.model.dto.response.RawMaterialResponse;
+import com.bahari.bahari_resto_API.model.entity.Container;
 import com.bahari.bahari_resto_API.model.entity.RawMaterial;
 import com.bahari.bahari_resto_API.repository.ContainerRepository;
 import com.bahari.bahari_resto_API.repository.RawMaterialRepository;
 import com.bahari.bahari_resto_API.service.RawMaterialService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
 public class RawMaterialServiceImpl implements RawMaterialService {
     private final RawMaterialRepository rawMaterialRepository;
+    private final ContainerRepository containerRepository;
 
     @Override
     public RawMaterialResponse create(RawMaterialRequest rawMaterialRequest) {
@@ -90,7 +94,22 @@ public class RawMaterialServiceImpl implements RawMaterialService {
     }
 
     @Override
-    public RawMaterialResponse moveToContainer(String materialId, String containerId, RawMaterialRequest rawMaterialRequest) {
-        return null;
+    public RawMaterialResponse moveToContainer(String materialId, String containerId) {
+        RawMaterial rawMaterial = rawMaterialRepository.findById(materialId)
+                .orElseThrow(() -> new NoSuchElementException(String.format("not found material with id : %s",materialId)));
+
+        Container container = containerRepository.findById(containerId)
+                .orElseThrow(() -> new NoSuchElementException(String.format("no container found with id : %s",containerId)));
+        rawMaterial.setContainer(container);
+        RawMaterial updateContainerToRawMaterial = rawMaterialRepository.save(rawMaterial);
+        return RawMaterialResponse.builder()
+                .name(updateContainerToRawMaterial.getName())
+                .expDate(updateContainerToRawMaterial.getExpDate())
+                .price(updateContainerToRawMaterial.getPrice())
+                .manufacture(updateContainerToRawMaterial.getManufacture())
+                .stocks(updateContainerToRawMaterial.getStocks())
+                .distributionType(updateContainerToRawMaterial.getDistributionType())
+                .containerId(updateContainerToRawMaterial.getContainer().getId())
+                .build();
     }
 }
