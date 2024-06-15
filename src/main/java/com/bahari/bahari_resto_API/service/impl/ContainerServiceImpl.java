@@ -10,6 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -44,7 +45,14 @@ public class ContainerServiceImpl implements ContainerService {
 
     @Override
     public ContainerResponse getById(String id) {
-        return null;
+        Container container = containerRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(String.format("no such container with id : %s",id)));
+        return ContainerResponse.builder()
+                .containerCode(container.getContainerCode())
+                .colorStatus(container.getStatus())
+                .importId(container.getImportId().getId())
+                .warehouseId(container.getWarehouseId().getId())
+                .build();
     }
 
     @Override
