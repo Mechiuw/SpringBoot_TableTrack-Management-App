@@ -48,6 +48,7 @@ public class ContainerServiceImpl implements ContainerService {
         Container container = containerRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException(String.format("no such container with id : %s",id)));
         return ContainerResponse.builder()
+                .id(container.getId())
                 .containerCode(container.getContainerCode())
                 .colorStatus(container.getStatus())
                 .importId(container.getImportId().getId())
@@ -62,7 +63,23 @@ public class ContainerServiceImpl implements ContainerService {
 
     @Override
     public ContainerResponse update(String id, ContainerRequest containerRequest) {
-        return null;
+        Container container = containerRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(String.format("no container with id : %s",id)));
+        container.setContainerCode(containerRequest.getContainerCode());
+        container.setContainerCode(String.valueOf(containerRequest.getColorStatus()));
+        container.setContainerCode(containerRequest.getImportId().getId());
+        container.setContainerCode(containerRequest.getWarehouseId().getId());
+        container.setContainerCode(containerRequest.getContainerCode());
+
+        Container savedContainer = containerRepository.saveAndFlush(container);
+
+        return ContainerResponse.builder()
+                .id(savedContainer.getId())
+                .containerCode(savedContainer.getContainerCode())
+                .colorStatus(savedContainer.getStatus())
+                .importId(savedContainer.getImportId().getId())
+                .warehouseId(savedContainer.getWarehouseId().getId())
+                .build();
     }
 
     @Override
