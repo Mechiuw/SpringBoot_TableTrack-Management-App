@@ -83,7 +83,9 @@ public class ContainerServiceImpl implements ContainerService {
     }
 
     @Override
-    public void delete(ContainerRequest containerRequest) {
-
+    public void delete(String id) {
+        Container container = containerRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(String.format("cannot find any related containers with id : %s",id)));
+        containerRepository.delete(container);
     }
 }

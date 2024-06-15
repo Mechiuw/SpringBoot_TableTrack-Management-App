@@ -15,5 +15,5 @@ public interface ContainerService {
 
     ContainerResponse update(String id,ContainerRequest containerRequest);
 
-    void delete(ContainerRequest containerRequest);
+    void delete(String id);
 }
