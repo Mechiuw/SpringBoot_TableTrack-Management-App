@@ -49,7 +49,7 @@ public class ContainerServiceImpl implements ContainerService {
 
     @Override
     public List<Container> getAll() {
-        return null;
+        return containerRepository.findAll();
     }
 
     @Override
