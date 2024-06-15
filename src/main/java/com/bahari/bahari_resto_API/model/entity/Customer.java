@@ -1,5 +1,6 @@
 package com.bahari.bahari_resto_API.model.entity;
 
+import com.bahari.bahari_resto_API.constant.EShipment;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,6 +18,10 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+
+    @Column(name = "shipment",nullable = false)
+    @Enumerated(EnumType.STRING)
+    private EShipment shipment;
 
     @Column(name = "name" , nullable = false, length = 50)
     private String name;

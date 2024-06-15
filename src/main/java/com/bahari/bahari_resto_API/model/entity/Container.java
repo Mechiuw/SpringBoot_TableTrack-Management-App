@@ -26,15 +26,12 @@ public class Container {
     @Column(name = "containerCode",nullable = false)
     private String containerCode;
 
-    @Column(name = "colorStatus",nullable = true, columnDefinition = "varchar(255) default 'default_value'")
+    @Column(name = "colorStatus",nullable = true)
     @Enumerated(EnumType.STRING)
     private EColorStatus status;
 
-    @Column(name = "shipment",nullable = false)
-    @Enumerated(EnumType.STRING)
-    private EShipment shipment;
 
-    @JoinColumn(name = "importId",nullable = true,referencedColumnName = "id")
+    @JoinColumn(name = "importId",nullable = true,referencedColumnName = "id", columnDefinition = "varchar(255) default 'UNORDERED'")
     @JsonBackReference
     @ManyToOne
     private Import importId;

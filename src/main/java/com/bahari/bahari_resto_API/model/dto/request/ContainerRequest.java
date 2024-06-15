@@ -1,5 +1,6 @@
 package com.bahari.bahari_resto_API.model.dto.request;
 
+import com.bahari.bahari_resto_API.constant.EColorStatus;
 import com.bahari.bahari_resto_API.constant.EShipment;
 import com.bahari.bahari_resto_API.model.entity.Import;
 import com.bahari.bahari_resto_API.model.entity.Warehouse;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ContainerRequest {
     private String containerCode;
-    private EShipment eshipment;
+    private EColorStatus colorStatus;
     private Warehouse warehouseId;
     private Import importId;
 }
