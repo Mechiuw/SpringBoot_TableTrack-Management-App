@@ -1,5 +1,6 @@
 package com.bahari.bahari_resto_API.model.entity;
 
+import com.bahari.bahari_resto_API.constant.EColorStatus;
 import com.bahari.bahari_resto_API.constant.EShipment;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -24,6 +25,10 @@ public class Container {
 
     @Column(name = "containerCode",nullable = false)
     private String containerCode;
+
+    @Column(name = "colorStatus",nullable = true, columnDefinition = "varchar(255) default 'default_value'")
+    @Enumerated(EnumType.STRING)
+    private EColorStatus status;
 
     @Column(name = "shipment",nullable = false)
     @Enumerated(EnumType.STRING)

@@ -17,7 +17,22 @@ public class ContainerServiceImpl implements ContainerService {
 
     @Override
     public ContainerResponse create(ContainerRequest containerRequest) {
-        return null;
+        // EMPTY CONTAINER
+        //1. NO IMPORT ID
+        //2. NO WAREHOUSE ID
+        //3. DEFAULT STATUS
+        //4. NO RAW MATERIAL
+
+        Container container = Container.builder()
+                .containerCode(containerRequest.getContainerCode())
+                .build();
+        Container unallocatedContainer = containerRepository.save(container);
+        return ContainerResponse.builder()
+                .id(unallocatedContainer.getId())
+                .containerCode(unallocatedContainer.getContainerCode())
+                .eShipment(unallocatedContainer.getShipment())
+                .
+                .build();
     }
 
     @Override
