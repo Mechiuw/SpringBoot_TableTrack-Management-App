@@ -104,34 +104,35 @@ public class ContainerServiceImpl implements ContainerService {
         Container container = containerRepository.findById(containerId)
                 .orElseThrow(() -> new NoSuchElementException(String.format("not found container with id : %s",containerId)));
 
-        if(container.getWarehouseId() != null || !container.getWarehouseId().equals("UNPLACED")) {
-            List<RawMaterial> rawMaterialList = new ArrayList<>();
-            for(RawMaterialRequest rawMaterialRequest : containerRequest.getRequestList()){
-                RawMaterial rawMaterial = RawMaterial.builder()
-                        .name(rawMaterialRequest.getName())
-                        .expDate(rawMaterialRequest.getExpDate())
-                        .price(rawMaterialRequest.getPrice())
-                        .manufacture(rawMaterialRequest.getManufacture())
-                        .stocks(rawMaterialRequest.getStocks())
-                        .distributionType(rawMaterialRequest.getDistributionType())
-                        .container(container)
-                        .build();
-                rawMaterialList.add(rawMaterial);
-            }
-            container.setRawMaterialList(rawMaterialList);
-            Container filledContainer = containerRepository.saveAndFlush(container);
-
-            return ContainerResponse.builder()
-                    .id(filledContainer.getId())
-                    .containerCode(filledContainer.getContainerCode())
-                    .colorStatus(filledContainer.getStatus())
-                    .warehouseId(filledContainer.getWarehouseId().getId())
-                    .rawMaterialList(filledContainer.getRawMaterialList())
-                    .build();
-        } else {
+        if(container.getWarehouseId() == null || "UNPLACED".equals(container.getWarehouseId().getId())) {
             throw new UnplacedContainerException(String.format("container either unplaced or not inside warehouse yet with id : %s",containerId));
         }
 
+        List<RawMaterial> rawMaterialList = new ArrayList<>();
+        for(RawMaterialRequest rawMaterialRequest : containerRequest.getRequestList()){
+            RawMaterial rawMaterial = RawMaterial.builder()
+                    .name(rawMaterialRequest.getName())
+                    .expDate(rawMaterialRequest.getExpDate())
+                    .price(rawMaterialRequest.getPrice())
+                    .manufacture(rawMaterialRequest.getManufacture())
+                    .stocks(rawMaterialRequest.getStocks())
+                    .distributionType(rawMaterialRequest.getDistributionType())
+                    .container(container)
+                    .build();
+            rawMaterialList.add(rawMaterial);
+        }
+
+        container.setRawMaterialList(rawMaterialList);
+        Container filledContainer = containerRepository.saveAndFlush(container);
+
+        return ContainerResponse.builder()
+                .id(filledContainer.getId())
+                .containerCode(filledContainer.getContainerCode())
+                .colorStatus(filledContainer.getStatus())
+                .warehouseId(filledContainer.getWarehouseId().getId())
+                .importId(filledContainer.getImportId() != null ? filledContainer.getImportId().getId() : null)
+                .rawMaterialList(filledContainer.getRawMaterialList())
+                .build();
     }
 
     public ContainerResponse moveToWarehouse(String warehouseId,String containerId){
@@ -147,6 +148,7 @@ public class ContainerServiceImpl implements ContainerService {
                 .containerCode(containerInWarehouse.getContainerCode())
                 .colorStatus(containerInWarehouse.getStatus())
                 .warehouseId(containerInWarehouse.getWarehouseId().getId())
+                .importId(containerInWarehouse.getImportId() != null ? containerInWarehouse.getImportId().getId() : null)
                 .build();
     }
 
@@ -154,13 +156,21 @@ public class ContainerServiceImpl implements ContainerService {
     public ContainerResponse detachFromWarehouse(String containerId) {
         Container container = containerRepository.findById(containerId)
                 .orElseThrow(() -> new NoSuchElementException(String.format("not found container with it : %s",containerId)));
-        if(container.getWarehouseId().equals("DETACH") || container.getWarehouseId().equals(null)){
+
+        if("DETACH".equals(container.getWarehouseId().getId()) || container.getWarehouseId() == null){
             throw new InvalidWarehouseDetachException(String.format("Cannot detach container when it's already detached from the warehouse with id : %s",containerId));
         }
+        if(container.getImportId() != null && !container.getImportId().getId().isEmpty()){
+            throw new InvalidWarehouseDetachException(String.format("Cannot detach container if container gets imported with import id : %s",container.getImportId().getId()));
+        }
+
         container.setWarehouseId(null);
+        Container detachedContainer = containerRepository.save(container);
         return ContainerResponse.builder()
-                .id(container.getId())
-                .containerCode(container.getId())
+                .id(detachedContainer.getId())
+                .containerCode(detachedContainer.getContainerCode())
+                .colorStatus(detachedContainer.getStatus())
+                .importId(detachedContainer.getImportId() != null ? detachedContainer.getImportId().getId() : null)
                 .build();
     }
 
