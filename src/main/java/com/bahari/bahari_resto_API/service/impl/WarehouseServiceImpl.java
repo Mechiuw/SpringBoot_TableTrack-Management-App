@@ -85,8 +85,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     public List<Container> listAllContainer(String id){
         Warehouse warehouse = warehouseRepository.findById(id)
                 .orElseThrow(()-> new NoSuchElementException(String.format("no such warehouse found with id : %s",id)));
-        List<Container> containerList = containerRepository.findAll()
+        return containerRepository.findAll()
                 .stream().filter(x -> x.getWarehouseId().getId().equals(warehouse.getId())).toList();
-        return containerList;
     }
 }
