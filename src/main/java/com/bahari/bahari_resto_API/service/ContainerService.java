@@ -16,4 +16,8 @@ public interface ContainerService {
     ContainerResponse update(String id,ContainerRequest containerRequest);
 
     void delete(String id);
+
+    ContainerResponse addRawMaterials(String containerId,ContainerRequest containerRequest);
+    ContainerResponse moveToWarehouse(String warehouseId,String containerId);
+    ContainerResponse detachFromWarehouse(String containerId);
 }

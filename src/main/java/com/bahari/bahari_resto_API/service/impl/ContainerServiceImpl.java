@@ -1,14 +1,22 @@
 package com.bahari.bahari_resto_API.service.impl;
 
+import com.bahari.bahari_resto_API.exceptions.InvalidWarehouseDetachException;
+import com.bahari.bahari_resto_API.exceptions.UnplacedContainerException;
 import com.bahari.bahari_resto_API.model.dto.request.ContainerRequest;
+import com.bahari.bahari_resto_API.model.dto.request.RawMaterialRequest;
 import com.bahari.bahari_resto_API.model.dto.response.ContainerResponse;
 import com.bahari.bahari_resto_API.model.entity.Container;
+import com.bahari.bahari_resto_API.model.entity.RawMaterial;
+import com.bahari.bahari_resto_API.model.entity.Warehouse;
 import com.bahari.bahari_resto_API.repository.ContainerRepository;
+import com.bahari.bahari_resto_API.repository.RawMaterialRepository;
+import com.bahari.bahari_resto_API.repository.WarehouseRepository;
 import com.bahari.bahari_resto_API.service.ContainerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -16,6 +24,8 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class ContainerServiceImpl implements ContainerService {
     private final ContainerRepository containerRepository;
+    private final WarehouseRepository warehouseRepository;
+    private final RawMaterialRepository rawMaterialRepository;
 
     @Override
     public ContainerResponse create(ContainerRequest containerRequest) throws IllegalArgumentException, DataAccessException {
@@ -88,4 +98,71 @@ public class ContainerServiceImpl implements ContainerService {
                 .orElseThrow(() -> new NoSuchElementException(String.format("cannot find any related containers with id : %s",id)));
         containerRepository.delete(container);
     }
+
+    @Override
+    public ContainerResponse addRawMaterials(String containerId, ContainerRequest containerRequest) {
+        Container container = containerRepository.findById(containerId)
+                .orElseThrow(() -> new NoSuchElementException(String.format("not found container with id : %s",containerId)));
+
+        if(container.getWarehouseId() != null || !container.getWarehouseId().equals("UNPLACED")) {
+            List<RawMaterial> rawMaterialList = new ArrayList<>();
+            for(RawMaterialRequest rawMaterialRequest : containerRequest.getRequestList()){
+                RawMaterial rawMaterial = RawMaterial.builder()
+                        .name(rawMaterialRequest.getName())
+                        .expDate(rawMaterialRequest.getExpDate())
+                        .price(rawMaterialRequest.getPrice())
+                        .manufacture(rawMaterialRequest.getManufacture())
+                        .stocks(rawMaterialRequest.getStocks())
+                        .distributionType(rawMaterialRequest.getDistributionType())
+                        .container(container)
+                        .build();
+                rawMaterialList.add(rawMaterial);
+            }
+            container.setRawMaterialList(rawMaterialList);
+            Container filledContainer = containerRepository.saveAndFlush(container);
+
+            return ContainerResponse.builder()
+                    .id(filledContainer.getId())
+                    .containerCode(filledContainer.getContainerCode())
+                    .colorStatus(filledContainer.getStatus())
+                    .warehouseId(filledContainer.getWarehouseId().getId())
+                    .rawMaterialList(filledContainer.getRawMaterialList())
+                    .build();
+        } else {
+            throw new UnplacedContainerException(String.format("container either unplaced or not inside warehouse yet with id : %s",containerId));
+        }
+
+    }
+
+    public ContainerResponse moveToWarehouse(String warehouseId,String containerId){
+        Container container = containerRepository.findById(containerId)
+                .orElseThrow(() -> new NoSuchElementException(String.format("not found container with id : %s",containerId)));
+        Warehouse warehouse = warehouseRepository.findById(warehouseId)
+                .orElseThrow(() -> new NoSuchElementException(String.format("not found warehouse with id : %s",warehouseId)));
+
+        container.setWarehouseId(warehouse);
+        Container containerInWarehouse = containerRepository.save(container);
+        return ContainerResponse.builder()
+                .id(containerInWarehouse.getId())
+                .containerCode(containerInWarehouse.getContainerCode())
+                .colorStatus(containerInWarehouse.getStatus())
+                .warehouseId(containerInWarehouse.getWarehouseId().getId())
+                .build();
+    }
+
+    @Override
+    public ContainerResponse detachFromWarehouse(String containerId) {
+        Container container = containerRepository.findById(containerId)
+                .orElseThrow(() -> new NoSuchElementException(String.format("not found container with it : %s",containerId)));
+        if(container.getWarehouseId().equals("DETACH") || container.getWarehouseId().equals(null)){
+            throw new InvalidWarehouseDetachException(String.format("Cannot detach container when it's already detached from the warehouse with id : %s",containerId));
+        }
+        container.setWarehouseId(null);
+        return ContainerResponse.builder()
+                .id(container.getId())
+                .containerCode(container.getId())
+                .build();
+    }
+
+
 }

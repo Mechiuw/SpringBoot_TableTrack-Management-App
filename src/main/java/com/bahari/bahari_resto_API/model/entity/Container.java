@@ -37,7 +37,7 @@ public class Container {
     private Import importId;
 
     @ManyToOne
-    @JoinColumn(name = "warehouseId", nullable = true,referencedColumnName = "id")
+    @JoinColumn(name = "warehouseId", nullable = true,referencedColumnName = "id",columnDefinition = "varchar(255) default 'UNPLACED'")
     @JsonBackReference
     private Warehouse warehouseId;
 
