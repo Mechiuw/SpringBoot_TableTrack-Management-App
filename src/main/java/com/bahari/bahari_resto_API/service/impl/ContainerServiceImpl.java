@@ -39,17 +39,14 @@ public class ContainerServiceImpl implements ContainerService {
         }
 
         Container container = Container.builder()
-                .status(containerRequest.getColorStatus())
-                .warehouseId(containerRequest.getWarehouseId())
                 .containerCode(containerRequest.getContainerCode())
+                .status(containerRequest.getColorStatus())
                 .build();
         Container unallocatedContainer = containerRepository.save(container);
         return ContainerResponse.builder()
                 .id(unallocatedContainer.getId())
                 .containerCode(unallocatedContainer.getContainerCode())
                 .colorStatus(unallocatedContainer.getStatus())
-                .importId(unallocatedContainer.getImportId().getId())
-                .warehouseId(unallocatedContainer.getWarehouseId().getId())
                 .build();
     }
 
@@ -76,10 +73,13 @@ public class ContainerServiceImpl implements ContainerService {
         Container container = containerRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException(String.format("no container with id : %s",id)));
         container.setContainerCode(containerRequest.getContainerCode());
-        container.setContainerCode(String.valueOf(containerRequest.getColorStatus()));
-        container.setContainerCode(containerRequest.getImportId().getId());
-        container.setContainerCode(containerRequest.getWarehouseId().getId());
-        container.setContainerCode(containerRequest.getContainerCode());
+        container.setStatus(containerRequest.getColorStatus());
+        if (containerRequest.getImportId() != null) {
+            container.setImportId(containerRequest.getImportId());
+        }
+        if (containerRequest.getWarehouseId() != null) {
+            container.setWarehouseId(containerRequest.getWarehouseId());
+        }
 
         Container savedContainer = containerRepository.saveAndFlush(container);
 
@@ -142,7 +142,7 @@ public class ContainerServiceImpl implements ContainerService {
                 .orElseThrow(() -> new NoSuchElementException(String.format("not found warehouse with id : %s",warehouseId)));
 
         container.setWarehouseId(warehouse);
-        Container containerInWarehouse = containerRepository.save(container);
+        Container containerInWarehouse = containerRepository.saveAndFlush(container);
         return ContainerResponse.builder()
                 .id(containerInWarehouse.getId())
                 .containerCode(containerInWarehouse.getContainerCode())
@@ -165,7 +165,7 @@ public class ContainerServiceImpl implements ContainerService {
         }
 
         container.setWarehouseId(null);
-        Container detachedContainer = containerRepository.save(container);
+        Container detachedContainer = containerRepository.saveAndFlush(container);
         return ContainerResponse.builder()
                 .id(detachedContainer.getId())
                 .containerCode(detachedContainer.getContainerCode())
