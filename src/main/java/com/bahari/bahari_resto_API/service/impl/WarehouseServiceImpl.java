@@ -8,6 +8,7 @@ import com.bahari.bahari_resto_API.model.entity.Container;
 import com.bahari.bahari_resto_API.model.entity.Warehouse;
 import com.bahari.bahari_resto_API.repository.ContainerRepository;
 import com.bahari.bahari_resto_API.repository.WarehouseRepository;
+import com.bahari.bahari_resto_API.service.ContainerService;
 import com.bahari.bahari_resto_API.service.WarehouseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import java.util.NoSuchElementException;
 public class WarehouseServiceImpl implements WarehouseService {
     private final WarehouseRepository warehouseRepository;
     private final ContainerRepository containerRepository;
+    private final ContainerService containerService;
 
     @Override
     public WarehouseResponse create(WarehouseRequest warehouseRequest) {
@@ -82,10 +84,28 @@ public class WarehouseServiceImpl implements WarehouseService {
         warehouseRepository.delete(warehouse);
     }
 
-    public List<Container> listAllContainer(String id){
-        Warehouse warehouse = warehouseRepository.findById(id)
-                .orElseThrow(()-> new NoSuchElementException(String.format("no such warehouse found with id : %s",id)));
+    @Override
+    public List<Container> listAllContainer(String warehouseId) {
+        Warehouse warehouse = warehouseRepository.findById(warehouseId)
+                .orElseThrow(()-> new NoSuchElementException(String.format("no such warehouse found with id : %s",warehouseId)));
         return containerRepository.findAll()
                 .stream().filter(x -> x.getWarehouseId().getId().equals(warehouse.getId())).toList();
+    }
+
+    @Override
+    public ContainerResponse findContainer(String warehouseId, String containerId) {
+        Warehouse warehouse = warehouseRepository.findById(warehouseId)
+                .orElseThrow(()->new NoSuchElementException(String.format("no such warehouse found with id : %s",warehouseId)));
+        Container lookContainer = containerRepository.findById(containerId)
+                .orElseThrow(()->new NoSuchElementException(String.format("no such container found with id : %s",containerId)));
+        if(!lookContainer.getWarehouseId().getId().equals(warehouse.getId())){
+            throw new NoSuchElementException(String.format("container %s is located in different warehouse",
+                    lookContainer.getContainerCode()));
+        }
+        return null;
+    }
+
+    public ContainerResponse addContainer(String warehouseId, String containerId){
+        return containerService.moveToWarehouse(warehouseId,containerId);
     }
 }
