@@ -1,13 +1,18 @@
 package com.bahari.bahari_resto_API.service.impl;
 
+import com.bahari.bahari_resto_API.model.dto.request.ContainerRequest;
 import com.bahari.bahari_resto_API.model.dto.request.WarehouseRequest;
+import com.bahari.bahari_resto_API.model.dto.response.ContainerResponse;
 import com.bahari.bahari_resto_API.model.dto.response.WarehouseResponse;
+import com.bahari.bahari_resto_API.model.entity.Container;
 import com.bahari.bahari_resto_API.model.entity.Warehouse;
+import com.bahari.bahari_resto_API.repository.ContainerRepository;
 import com.bahari.bahari_resto_API.repository.WarehouseRepository;
 import com.bahari.bahari_resto_API.service.WarehouseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -15,6 +20,7 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class WarehouseServiceImpl implements WarehouseService {
     private final WarehouseRepository warehouseRepository;
+    private final ContainerRepository containerRepository;
 
     @Override
     public WarehouseResponse create(WarehouseRequest warehouseRequest) {
@@ -74,5 +80,13 @@ public class WarehouseServiceImpl implements WarehouseService {
         Warehouse warehouse = warehouseRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException(String.format("not found warehouse with id : %s",id)));
         warehouseRepository.delete(warehouse);
+    }
+
+    public List<Container> listAllContainer(String id){
+        Warehouse warehouse = warehouseRepository.findById(id)
+                .orElseThrow(()-> new NoSuchElementException(String.format("no such warehouse found with id : %s",id)));
+        List<Container> containerList = containerRepository.findAll()
+                .stream().filter(x -> x.getWarehouseId().getId().equals(warehouse.getId())).toList();
+        return containerList;
     }
 }

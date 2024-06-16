@@ -34,6 +34,7 @@ public class Warehouse {
     @Enumerated(EnumType.STRING)
     private ECountry country;
 
+
     @OneToMany(mappedBy = "warehouseId",cascade = CascadeType.ALL)
     @JsonManagedReference
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
