@@ -88,7 +88,6 @@ public class OrderServiceImpl implements OrderService {
                         .quantity(od.getQuantity())
                         .totalPrice(od.getTotalPrice())
                         .build()).toList();
-        int [] array;
         return OrderResponse.builder()
                 .id(savedOrder.getId())
                 .dateTime(savedOrder.getDateTime())

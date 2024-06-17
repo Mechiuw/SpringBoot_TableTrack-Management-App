@@ -7,6 +7,7 @@ import com.bahari.bahari_resto_API.model.entity.Import;
 import java.util.List;
 
 public interface ImportService {
+    void ImportData(ImportRequest importRequest);
     ImportResponse create(ImportRequest importRequest);
 
     ImportResponse getById(String id);
