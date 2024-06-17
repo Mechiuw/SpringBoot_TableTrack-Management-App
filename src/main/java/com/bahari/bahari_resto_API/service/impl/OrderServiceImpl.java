@@ -34,7 +34,6 @@ public class OrderServiceImpl implements OrderService {
     private final ProductRepository productRepository;
     private final OrderDetailRepository orderDetailRepository;
 
-
     @Valid
     private void validateOrderRequest(OrderRequest x){
         if(x == null){

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.NoSuchElementException;
 
 @Component
-public class ImportValidator extends ConstraintValidator<ValidImportRequest, ImportRequest> {
+public class ImportValidator implements ConstraintValidator<ValidImportRequest, ImportRequest> {
 
     @Override
     public void initialize(ValidImportRequest constraintAnnotation) {

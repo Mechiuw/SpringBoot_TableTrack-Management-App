@@ -29,7 +29,6 @@ public class ImportServiceImpl implements ImportService {
     private final StoreRepository storeRepository;
     private final WarehouseRepository warehouseRepository;
     private final ContainerRepository containerRepository;
-    private final ImportDetailsRepository importDetailsRepository;
 
     @Override
     public void ImportData(@ValidImportRequest ImportRequest importRequest) {
@@ -62,7 +61,7 @@ public class ImportServiceImpl implements ImportService {
         Warehouse warehouse = warehouseRepository.findById(importRequest.getWarehouseId())
                 .orElseThrow(() -> new NoSuchElementException(String.format("no warehouse found with id %s",importRequest.getWarehouseId())));
 
-        List<Container> containers = containerRepository.findByWarehouseId(warehouse.getId());
+        List<Container> containers = containerRepository.findByWarehouseId(warehouse);
         List<ContainerResponse> containerResponses = containers.stream()
                 .map(x -> ContainerResponse.builder()
                         .importId(x.getImportId().getId())
@@ -164,7 +163,7 @@ public class ImportServiceImpl implements ImportService {
                 .orElseThrow(() -> new NoSuchElementException(String.format("not found store with id : %s",imp.getStore().getId())));;
         Warehouse warehouse = warehouseRepository.findById(imp.getWarehouse().getId())
                 .orElseThrow(() -> new NoSuchElementException(String.format("not found warehouse with id : %s",imp.getWarehouse().getId())));
-        List<Container> containers = containerRepository.findByWarehouseId(imp.getWarehouse().getId());
+        List<Container> containers = containerRepository.findByWarehouseId(imp.getWarehouse());
 
         imp.setStore(searchStore);
         imp.setWarehouse(warehouse);
