@@ -102,7 +102,10 @@ public class WarehouseServiceImpl implements WarehouseService {
             throw new NoSuchElementException(String.format("container %s is located in different warehouse",
                     lookContainer.getContainerCode()));
         }
-        return null;
+        return ContainerResponse.builder()
+                .containerCode(lookContainer.getContainerCode())
+
+                .build();
     }
 
     public ContainerResponse addContainer(String warehouseId, String containerId){

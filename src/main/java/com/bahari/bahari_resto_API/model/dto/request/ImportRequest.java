@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,4 +14,6 @@ import lombok.NoArgsConstructor;
 public class ImportRequest {
     private String storeId;
     private String warehouseId;
+    private List<ContainerRequest> containerRequestList;
+    private List<ImportDetailsRequest> importDetailsRequests;
 }
