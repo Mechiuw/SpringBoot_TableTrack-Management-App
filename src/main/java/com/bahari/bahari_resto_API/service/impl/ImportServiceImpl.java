@@ -165,20 +165,51 @@ public class ImportServiceImpl implements ImportService {
         Warehouse warehouse = warehouseRepository.findById(imp.getWarehouse().getId())
                 .orElseThrow(() -> new NoSuchElementException(String.format("not found warehouse with id : %s",imp.getWarehouse().getId())));
         List<Container> containers = containerRepository.findByWarehouseId(imp.getWarehouse().getId());
-        List<ImportDetails> importDetails = importDetailsRepository.findAll();
 
         imp.setStore(searchStore);
         imp.setWarehouse(warehouse);
         imp.setShipment(importRequest.getShipment());
         imp.setContainers(containers);
+
+        List<ImportDetails> importDetails = importRequest.getImportDetailsRequests().stream()
+                .map(importDetailsRequest -> ImportDetails.builder()
+                        .Tax(importDetailsRequest.getTax())
+                        .boarded(importDetailsRequest.getBoarded())
+                        .arrival(importDetailsRequest.getArrival())
+                        .importId(imp)
+                        .build())
+                .toList();
         imp.setImportDetails(importDetails);
 
         Import savedImport = importRepository.saveAndFlush(imp);
+
+        List<ImportDetailsResponse> importDetailsResponses = importDetails.stream()
+                .map(details -> ImportDetailsResponse.builder()
+                        .id(details.getId())
+                        .boarded(details.getBoarded())
+                        .arrival(details.getArrival())
+                        .tax(details.getTax())
+                        .importId(details.getImportId().getId())
+                        .build())
+                .toList();
+
+        List<ContainerResponse> containerResponses = containers.stream()
+                .map(cntrs -> ContainerResponse.builder()
+                        .id(cntrs.getId())
+                        .containerCode(cntrs.getContainerCode())
+                        .colorStatus(cntrs.getStatus())
+                        .importId(cntrs.getImportId().getId())
+                        .warehouseId(cntrs.getWarehouseId().getId())
+                        .rawMaterialList(cntrs.getRawMaterialList())
+                        .build())
+                .toList();
         return ImportResponse.builder()
                 .id(savedImport.getId())
                 .storeId(savedImport.getStore().getId())
                 .warehouseId(savedImport.getWarehouse().getId())
                 .eShipment(savedImport.getShipment())
+                .importDetailsResponseList(importDetailsResponses)
+                .containerResponseList(containerResponses)
                 .build();
     }
 
