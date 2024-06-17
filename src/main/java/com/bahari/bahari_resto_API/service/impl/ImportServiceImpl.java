@@ -48,8 +48,10 @@ public class ImportServiceImpl implements ImportService {
 
     @Override
     public ImportResponse create(ImportRequest importRequest) {
+        //validator - validation layer
         ImportData(importRequest);
 
+        // entity build layer
         Store store = storeRepository.findById(importRequest.getStoreId())
                 .orElseThrow(() -> new NoSuchElementException(String.format("no store found with id %s",importRequest.getStoreId())));
 
@@ -59,6 +61,10 @@ public class ImportServiceImpl implements ImportService {
         List<Container> containers = containerRepository.findAll().stream()
                 .filter(x -> x.getWarehouseId().getId().equals(warehouse.getId())).toList();
 
+        if(containers.isEmpty()){
+            throw new NoSuchElementException("No Containers found inside the exact warehouse");
+        }
+
         Import imports = Import.builder()
                 .store(store)
                 .warehouse(warehouse)
@@ -66,20 +72,20 @@ public class ImportServiceImpl implements ImportService {
                 .shipment(importRequest.getShipment())
                 .build();
 
-        List<ImportDetails> importDetails = new ArrayList<>();
-        for(ImportDetailsRequest importDetailsRequest : importRequest.getImportDetailsRequests()){
-            ImportDetails importDetailsList = ImportDetails.builder()
-                    .Tax(importDetailsRequest.getTax())
-                    .boarded(importDetailsRequest.getBoarded())
-                    .arrival(importDetailsRequest.getArrival())
-                    .importId(imports)
-                    .build();
-            importDetails.add(importDetailsList);
-        }
+        List<ImportDetails> importDetails = importRequest.getImportDetailsRequests().stream()
+                .map(importDetailsRequest -> ImportDetails.builder()
+                        .Tax(importDetailsRequest.getTax())
+                        .boarded(importDetailsRequest.getBoarded())
+                        .arrival(importDetailsRequest.getArrival())
+                        .importId(imports)
+                        .build())
+                .toList();
         imports.setImportDetails(importDetails);
 
+        // saved transaction
         Import savedImport = importRepository.saveAndFlush(imports);
 
+        // response layer #1
         List<ImportDetailsResponse> importDetailsResponses = importDetails.stream()
                 .map(imp -> ImportDetailsResponse.builder()
                         .id(imp.getId())
@@ -89,6 +95,7 @@ public class ImportServiceImpl implements ImportService {
                         .importId(imp.getImportId().getId())
                         .build()).toList();
 
+        // response layer #2
         return ImportResponse.builder()
                 .id(savedImport.getId())
                 .eShipment(savedImport.getShipment())
@@ -105,7 +112,7 @@ public class ImportServiceImpl implements ImportService {
 
     @Override
     public List<Import> getAll() {
-        return null;
+        return importRepository.findAll();
     }
 
     @Override
