@@ -15,6 +15,8 @@ import com.bahari.bahari_resto_API.repository.OrderDetailRepository;
 import com.bahari.bahari_resto_API.repository.OrderRepository;
 import com.bahari.bahari_resto_API.repository.ProductRepository;
 import com.bahari.bahari_resto_API.service.OrderService;
+import jakarta.transaction.RollbackException;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,7 @@ import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(rollbackOn = RollbackException.class)
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final CustomerRepository customerRepository;

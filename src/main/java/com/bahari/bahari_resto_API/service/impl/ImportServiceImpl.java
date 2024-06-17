@@ -9,6 +9,8 @@ import com.bahari.bahari_resto_API.model.entity.*;
 import com.bahari.bahari_resto_API.repository.*;
 import com.bahari.bahari_resto_API.service.ImportService;
 import com.bahari.bahari_resto_API.utils.ValidImportRequest;
+import jakarta.transaction.RollbackException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -20,6 +22,7 @@ import java.util.NoSuchElementException;
 @Service
 @RequiredArgsConstructor
 @Validated
+@Transactional(rollbackOn = RollbackException.class)
 public class ImportServiceImpl implements ImportService {
     private final ImportRepository importRepository;
     private final StoreRepository storeRepository;
@@ -58,8 +61,7 @@ public class ImportServiceImpl implements ImportService {
         Warehouse warehouse = warehouseRepository.findById(importRequest.getWarehouseId())
                 .orElseThrow(() -> new NoSuchElementException(String.format("no warehouse found with id %s",importRequest.getWarehouseId())));
 
-        List<Container> containers = containerRepository.findAll().stream()
-                .filter(x -> x.getWarehouseId().getId().equals(warehouse.getId())).toList();
+        List<Container> containers = containerRepository.findByWarehouseId(warehouse.getId());
 
         if(containers.isEmpty()){
             throw new NoSuchElementException("No Containers found inside the exact warehouse");
@@ -107,7 +109,25 @@ public class ImportServiceImpl implements ImportService {
 
     @Override
     public ImportResponse getById(String id) {
-        return null;
+        Import imp = importRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(String.format("not found any import with id : %s",id)));
+        List<ImportDetails> impDetails = imp.getImportDetails();
+        List<ImportDetailsResponse> impDetailsResponses = impDetails.stream()
+                .map(impd -> ImportDetailsResponse.builder()
+                        .id(impd.getId())
+                        .boarded(impd.getBoarded())
+                        .arrival(impd.getArrival())
+                        .tax(impd.getTax())
+                        .importId(impd.getImportId().getId())
+                        .build())
+                .toList();
+        return ImportResponse.builder()
+                .id(imp.getId())
+                .eShipment(imp.getShipment())
+                .storeId(imp.getStore().getId())
+                .warehouseId(imp.getWarehouse().getId())
+                .importDetailsResponseList(impDetailsResponses)
+                .build();
     }
 
     @Override
