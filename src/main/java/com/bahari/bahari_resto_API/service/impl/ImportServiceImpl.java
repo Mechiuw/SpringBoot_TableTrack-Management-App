@@ -215,6 +215,8 @@ public class ImportServiceImpl implements ImportService {
 
     @Override
     public void delete(String id) {
-
+        Import imp = importRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(String.format("not found any import with id : %s",id)));
+        importRepository.delete(imp);
     }
 }
