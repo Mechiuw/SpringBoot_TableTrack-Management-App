@@ -3,6 +3,7 @@ package com.bahari.bahari_resto_API.service.impl;
 import com.bahari.bahari_resto_API.model.dto.request.ContainerRequest;
 import com.bahari.bahari_resto_API.model.dto.request.ImportDetailsRequest;
 import com.bahari.bahari_resto_API.model.dto.request.ImportRequest;
+import com.bahari.bahari_resto_API.model.dto.response.ContainerResponse;
 import com.bahari.bahari_resto_API.model.dto.response.ImportDetailsResponse;
 import com.bahari.bahari_resto_API.model.dto.response.ImportResponse;
 import com.bahari.bahari_resto_API.model.entity.*;
@@ -62,6 +63,13 @@ public class ImportServiceImpl implements ImportService {
                 .orElseThrow(() -> new NoSuchElementException(String.format("no warehouse found with id %s",importRequest.getWarehouseId())));
 
         List<Container> containers = containerRepository.findByWarehouseId(warehouse.getId());
+        List<ContainerResponse> containerResponses = containers.stream()
+                .map(x -> ContainerResponse.builder()
+                        .importId(x.getImportId().getId())
+                        .warehouseId(x.getWarehouseId().getId())
+                        .containerCode(x.getContainerCode())
+                        .rawMaterialList(x.getRawMaterialList())
+                        .build()).toList();
 
         if(containers.isEmpty()){
             throw new NoSuchElementException("No Containers found inside the exact warehouse");
@@ -104,6 +112,7 @@ public class ImportServiceImpl implements ImportService {
                 .storeId(savedImport.getStore().getId())
                 .warehouseId(savedImport.getWarehouse().getId())
                 .importDetailsResponseList(importDetailsResponses)
+                .containerResponseList(containerResponses)
                 .build();
     }
 
@@ -111,6 +120,16 @@ public class ImportServiceImpl implements ImportService {
     public ImportResponse getById(String id) {
         Import imp = importRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException(String.format("not found any import with id : %s",id)));
+        List<Container> containerResponses = imp.getContainers();
+        List<ContainerResponse> containerResponseList = containerResponses.stream()
+                .map(ctx -> ContainerResponse.builder()
+                        .id(ctx.getId())
+                        .containerCode(ctx.getContainerCode())
+                        .colorStatus(ctx.getStatus())
+                        .rawMaterialList(ctx.getRawMaterialList())
+                        .importId(ctx.getImportId().getId())
+                        .build()).toList();
+
         List<ImportDetails> impDetails = imp.getImportDetails();
         List<ImportDetailsResponse> impDetailsResponses = impDetails.stream()
                 .map(impd -> ImportDetailsResponse.builder()
@@ -127,6 +146,7 @@ public class ImportServiceImpl implements ImportService {
                 .storeId(imp.getStore().getId())
                 .warehouseId(imp.getWarehouse().getId())
                 .importDetailsResponseList(impDetailsResponses)
+                .containerResponseList(containerResponseList)
                 .build();
     }
 
@@ -138,7 +158,28 @@ public class ImportServiceImpl implements ImportService {
     @Override
     public ImportResponse update(String id, ImportRequest importRequest) {
         ImportData(importRequest);
-        return null;
+        Import imp = importRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(String.format("not found import with id : %s",id)));
+        Store searchStore = storeRepository.findById(imp.getStore().getId())
+                .orElseThrow(() -> new NoSuchElementException(String.format("not found store with id : %s",imp.getStore().getId())));;
+        Warehouse warehouse = warehouseRepository.findById(imp.getWarehouse().getId())
+                .orElseThrow(() -> new NoSuchElementException(String.format("not found warehouse with id : %s",imp.getWarehouse().getId())));
+        List<Container> containers = containerRepository.findByWarehouseId(imp.getWarehouse().getId());
+        List<ImportDetails> importDetails = importDetailsRepository.findAll();
+
+        imp.setStore(searchStore);
+        imp.setWarehouse(warehouse);
+        imp.setShipment(importRequest.getShipment());
+        imp.setContainers(containers);
+        imp.setImportDetails(importDetails);
+
+        Import savedImport = importRepository.saveAndFlush(imp);
+        return ImportResponse.builder()
+                .id(savedImport.getId())
+                .storeId(savedImport.getStore().getId())
+                .warehouseId(savedImport.getWarehouse().getId())
+                .eShipment(savedImport.getShipment())
+                .build();
     }
 
     @Override
