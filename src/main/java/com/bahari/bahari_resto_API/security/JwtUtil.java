@@ -17,13 +17,13 @@ import java.util.Map;
 
 @Component
 public class JwtUtil {
-    @Value("${app.shopee.jwt.jwt-secret")
+    @Value("${app.tabletrack.jwt.jwt-secret}")
     private String jwtSecret;
 
-    @Value("${app.shopee.jwt.app-name")
+    @Value("${app.tabletrack.jwt.app-name}")
     private String appName;
 
-    @Value("${app.shopee.jwt.jwt-expiert")
+    @Value("${app.tabletrack.jwt.jwt-expiration}")
     private long jwtExpiration;
 
     //TODO 1 : Make/Generate new token
