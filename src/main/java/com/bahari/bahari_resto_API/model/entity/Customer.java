@@ -34,4 +34,8 @@ public class Customer {
 
     @Column(name = "phoneNum", nullable = false)
     private String phoneNum;
+
+    @OneToOne
+    @JoinColumn(name = "user_credential_id")
+    private UserCredential userCredential;
 }
