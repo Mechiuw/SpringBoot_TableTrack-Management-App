@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class JwtUtil {
@@ -53,6 +55,19 @@ public class JwtUtil {
         }
     }
 
+    public Map<String,String> getUserInfoByToken(String token){
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(jwtSecret.getBytes(StandardCharsets.UTF_8));
+            JWTVerifier verifier = JWT.require(algorithm).build();
+            DecodedJWT decodedJWT = verifier.verify(token);
 
+            Map<String, String> userInfo = new HashMap<>();
+            userInfo.put("userId",decodedJWT.getSubject());
+            userInfo.put("role",decodedJWT.getClaim("role").asString());
+            return userInfo;
+        } catch (JWTVerificationException e){
+            throw new RuntimeException(e);
+        }
+    }
 
 }
