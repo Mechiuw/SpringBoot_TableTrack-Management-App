@@ -5,6 +5,7 @@ import com.bahari.bahari_resto_API.model.dto.request.AuthRequest;
 import com.bahari.bahari_resto_API.model.dto.request.CustomerRequest;
 import com.bahari.bahari_resto_API.model.dto.response.LoginResponse;
 import com.bahari.bahari_resto_API.model.dto.response.RegisterResponse;
+import com.bahari.bahari_resto_API.model.entity.AppUser;
 import com.bahari.bahari_resto_API.model.entity.Customer;
 import com.bahari.bahari_resto_API.model.entity.Role;
 import com.bahari.bahari_resto_API.model.entity.UserCredential;
@@ -19,6 +20,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -76,6 +80,20 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public LoginResponse login(AuthRequest authRequest) {
-        return null;
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                authRequest.getUsername().toLowerCase(),
+                authRequest.getPassword()
+        ));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        //Object of the AppUser
+        AppUser appUser = (AppUser) authentication.getPrincipal();
+        String token = jwtUtil.generateToken(appUser);
+
+        return LoginResponse.builder()
+                .token(token)
+                .role(appUser.getRole().name())
+                .build();
     }
 }
