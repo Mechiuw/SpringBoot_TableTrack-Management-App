@@ -8,11 +8,11 @@
 		<version>3.3.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.bahari</groupId>
-	<artifactId>bahari-resto-API</artifactId>
+	<groupId>com.tabletrack</groupId>
+	<artifactId>table_track_API</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>bahari-resto-API</name>
-	<description>Demo project for Spring Boot</description>
+	<name>tabletrack-management-API</name>
+	<description>Resto application management project for Spring Boot that has many features upcoming!</description>
 	<properties>
 		<java.version>22</java.version>
 	</properties>
