@@ -55,6 +55,7 @@ public class JwtUtil {
         }
     }
 
+    //TODO 3 : Get the user's information from the token we generate
     public Map<String,String> getUserInfoByToken(String token){
         try {
             Algorithm algorithm = Algorithm.HMAC256(jwtSecret.getBytes(StandardCharsets.UTF_8));
