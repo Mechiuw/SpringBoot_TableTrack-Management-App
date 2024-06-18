@@ -1,7 +1,7 @@
 package com.tabletrack.table_track_API.repository;
 
 import com.tabletrack.table_track_API.constant.ERole;
-import com.tabletrack.table_track_API.model.entity.Role;
+import com.tabletrack.table_track_API.model.entity.authentication.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

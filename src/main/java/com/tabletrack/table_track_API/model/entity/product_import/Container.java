@@ -1,4 +1,4 @@
-package com.tabletrack.table_track_API.model.entity;
+package com.tabletrack.table_track_API.model.entity.product_import;
 
 import com.tabletrack.table_track_API.constant.EColorStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;

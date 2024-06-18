@@ -2,7 +2,7 @@ package com.tabletrack.table_track_API.service;
 
 import com.tabletrack.table_track_API.model.dto.request.ImportRequest;
 import com.tabletrack.table_track_API.model.dto.response.ImportResponse;
-import com.tabletrack.table_track_API.model.entity.Import;
+import com.tabletrack.table_track_API.model.entity.product_import.Import;
 
 import java.util.List;
 

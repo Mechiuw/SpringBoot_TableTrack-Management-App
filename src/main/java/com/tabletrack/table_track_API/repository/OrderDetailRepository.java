@@ -1,7 +1,7 @@
 package com.tabletrack.table_track_API.repository;
 
-import com.tabletrack.table_track_API.model.entity.Order;
-import com.tabletrack.table_track_API.model.entity.OrderDetails;
+import com.tabletrack.table_track_API.model.entity.order.Order;
+import com.tabletrack.table_track_API.model.entity.order.OrderDetails;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
 package com.tabletrack.table_track_API.repository;
 
-import com.tabletrack.table_track_API.model.entity.UserCredential;
+import com.tabletrack.table_track_API.model.entity.authentication.UserCredential;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

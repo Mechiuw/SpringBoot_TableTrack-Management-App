@@ -1,7 +1,8 @@
-package com.tabletrack.table_track_API.model.entity;
+package com.tabletrack.table_track_API.model.entity.product_import;
 
 import com.tabletrack.table_track_API.constant.DistributionType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.tabletrack.table_track_API.model.entity.product_import.Container;
 import jakarta.persistence.*;
 import lombok.*;
 

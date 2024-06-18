@@ -1,4 +1,4 @@
-package com.tabletrack.table_track_API.model.entity;
+package com.tabletrack.table_track_API.model.entity.order;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;

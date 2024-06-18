@@ -2,8 +2,8 @@ package com.tabletrack.table_track_API.service.impl;
 
 import com.tabletrack.table_track_API.model.dto.request.RawMaterialRequest;
 import com.tabletrack.table_track_API.model.dto.response.RawMaterialResponse;
-import com.tabletrack.table_track_API.model.entity.Container;
-import com.tabletrack.table_track_API.model.entity.RawMaterial;
+import com.tabletrack.table_track_API.model.entity.product_import.Container;
+import com.tabletrack.table_track_API.model.entity.product_import.RawMaterial;
 import com.tabletrack.table_track_API.repository.ContainerRepository;
 import com.tabletrack.table_track_API.repository.RawMaterialRepository;
 import com.tabletrack.table_track_API.service.RawMaterialService;

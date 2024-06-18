@@ -2,7 +2,7 @@ package com.tabletrack.table_track_API.service;
 
 import com.tabletrack.table_track_API.model.dto.request.RawMaterialRequest;
 import com.tabletrack.table_track_API.model.dto.response.RawMaterialResponse;
-import com.tabletrack.table_track_API.model.entity.RawMaterial;
+import com.tabletrack.table_track_API.model.entity.product_import.RawMaterial;
 
 import java.util.List;
 

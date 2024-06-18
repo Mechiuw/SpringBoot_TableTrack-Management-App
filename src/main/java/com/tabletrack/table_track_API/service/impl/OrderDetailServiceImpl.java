@@ -2,9 +2,9 @@ package com.tabletrack.table_track_API.service.impl;
 
 import com.tabletrack.table_track_API.model.dto.request.OrderDetailsRequest;
 import com.tabletrack.table_track_API.model.dto.response.OrderDetailsResponse;
-import com.tabletrack.table_track_API.model.entity.Order;
-import com.tabletrack.table_track_API.model.entity.OrderDetails;
-import com.tabletrack.table_track_API.model.entity.Product;
+import com.tabletrack.table_track_API.model.entity.order.Order;
+import com.tabletrack.table_track_API.model.entity.order.OrderDetails;
+import com.tabletrack.table_track_API.model.entity.order.Product;
 import com.tabletrack.table_track_API.repository.OrderDetailRepository;
 import com.tabletrack.table_track_API.repository.OrderRepository;
 import com.tabletrack.table_track_API.repository.ProductRepository;

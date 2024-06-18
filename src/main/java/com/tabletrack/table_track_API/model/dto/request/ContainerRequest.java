@@ -1,8 +1,8 @@
 package com.tabletrack.table_track_API.model.dto.request;
 
 import com.tabletrack.table_track_API.constant.EColorStatus;
-import com.tabletrack.table_track_API.model.entity.Import;
-import com.tabletrack.table_track_API.model.entity.Warehouse;
+import com.tabletrack.table_track_API.model.entity.product_import.Import;
+import com.tabletrack.table_track_API.model.entity.product_import.Warehouse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

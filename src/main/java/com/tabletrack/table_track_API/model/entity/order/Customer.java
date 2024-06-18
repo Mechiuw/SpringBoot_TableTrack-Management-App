@@ -1,6 +1,7 @@
-package com.tabletrack.table_track_API.model.entity;
+package com.tabletrack.table_track_API.model.entity.order;
 
 import com.tabletrack.table_track_API.constant.EShipment;
+import com.tabletrack.table_track_API.model.entity.authentication.UserCredential;
 import jakarta.persistence.*;
 import lombok.*;
 

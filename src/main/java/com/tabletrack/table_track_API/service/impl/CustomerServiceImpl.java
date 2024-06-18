@@ -2,7 +2,7 @@ package com.tabletrack.table_track_API.service.impl;
 
 import com.tabletrack.table_track_API.model.dto.request.CustomerRequest;
 import com.tabletrack.table_track_API.model.dto.response.CustomerResponse;
-import com.tabletrack.table_track_API.model.entity.Customer;
+import com.tabletrack.table_track_API.model.entity.order.Customer;
 import com.tabletrack.table_track_API.repository.CustomerRepository;
 import com.tabletrack.table_track_API.service.CustomerService;
 import lombok.RequiredArgsConstructor;

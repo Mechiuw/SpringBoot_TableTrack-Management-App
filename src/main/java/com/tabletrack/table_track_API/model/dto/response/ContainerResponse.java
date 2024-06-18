@@ -1,7 +1,7 @@
 package com.tabletrack.table_track_API.model.dto.response;
 
 import com.tabletrack.table_track_API.constant.EColorStatus;
-import com.tabletrack.table_track_API.model.entity.RawMaterial;
+import com.tabletrack.table_track_API.model.entity.product_import.RawMaterial;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

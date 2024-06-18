@@ -1,6 +1,7 @@
-package com.tabletrack.table_track_API.model.entity;
+package com.tabletrack.table_track_API.model.entity.product_import;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.tabletrack.table_track_API.model.entity.product_import.Import;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.Date;

@@ -1,6 +1,6 @@
 package com.tabletrack.table_track_API.service;
 
-import com.tabletrack.table_track_API.model.entity.AppUser;
+import com.tabletrack.table_track_API.model.entity.authentication.AppUser;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {

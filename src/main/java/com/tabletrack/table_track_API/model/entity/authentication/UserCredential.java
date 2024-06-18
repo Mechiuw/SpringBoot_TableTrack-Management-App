@@ -1,5 +1,6 @@
-package com.tabletrack.table_track_API.model.entity;
+package com.tabletrack.table_track_API.model.entity.authentication;
 
+import com.tabletrack.table_track_API.model.entity.authentication.Role;
 import jakarta.persistence.*;
 import lombok.*;
 

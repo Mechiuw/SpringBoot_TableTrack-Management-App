@@ -1,7 +1,7 @@
 package com.tabletrack.table_track_API.service.impl;
 
-import com.tabletrack.table_track_API.model.entity.AppUser;
-import com.tabletrack.table_track_API.model.entity.UserCredential;
+import com.tabletrack.table_track_API.model.entity.authentication.AppUser;
+import com.tabletrack.table_track_API.model.entity.authentication.UserCredential;
 import com.tabletrack.table_track_API.repository.UserCredentialRepository;
 import com.tabletrack.table_track_API.service.UserService;
 import lombok.RequiredArgsConstructor;

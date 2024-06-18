@@ -4,7 +4,7 @@ import com.tabletrack.table_track_API.constant.EndPointApp;
 import com.tabletrack.table_track_API.model.dto.request.OrderRequest;
 import com.tabletrack.table_track_API.model.dto.response.CommonResponse;
 import com.tabletrack.table_track_API.model.dto.response.OrderResponse;
-import com.tabletrack.table_track_API.model.entity.Order;
+import com.tabletrack.table_track_API.model.entity.order.Order;
 import com.tabletrack.table_track_API.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

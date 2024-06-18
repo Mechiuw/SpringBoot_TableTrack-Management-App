@@ -1,7 +1,8 @@
-package com.tabletrack.table_track_API.model.entity;
+package com.tabletrack.table_track_API.model.entity.order;
 
 import com.tabletrack.table_track_API.constant.DistributionType;
 import com.tabletrack.table_track_API.constant.EProductType;
+import com.tabletrack.table_track_API.model.entity.order.OrderDetails;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.*;

@@ -2,7 +2,7 @@ package com.tabletrack.table_track_API.service;
 
 import com.tabletrack.table_track_API.model.dto.request.ContainerRequest;
 import com.tabletrack.table_track_API.model.dto.response.ContainerResponse;
-import com.tabletrack.table_track_API.model.entity.Container;
+import com.tabletrack.table_track_API.model.entity.product_import.Container;
 
 import java.util.List;
 
