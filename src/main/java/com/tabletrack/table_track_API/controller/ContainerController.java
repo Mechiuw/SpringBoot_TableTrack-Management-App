@@ -71,4 +71,28 @@ public class ContainerController {
         containerService.delete(id);
         ResponseEntity.ok();
     }
+
+    @PutMapping(EndPointApp.FILL_BY_ID)
+    public ResponseEntity<?> fillContainer(@PathVariable String id,@RequestBody ContainerRequest containerRequest){
+        ContainerResponse fill = containerService.addRawMaterials(id, containerRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                CommonResponse.builder()
+                        .statusCode(HttpStatus.CREATED.value())
+                        .message("Successfully filled container with id: " + id)
+                        .data(fill)
+                        .build()
+        );
+    }
+
+    @PutMapping("/{warehouseId}/containers/{containerId}")
+    public ResponseEntity<?> moveToWarehouse(@PathVariable String warehouseId, @PathVariable String containerId){
+        ContainerResponse move = containerService.moveToWarehouse(warehouseId, containerId);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Successfully moved container " + containerId + " to warehouse " + warehouseId)
+                        .data(move)
+                        .build()
+        );
+    }
 }
