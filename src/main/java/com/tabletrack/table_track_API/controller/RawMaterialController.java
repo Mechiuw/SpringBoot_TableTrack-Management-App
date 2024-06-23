@@ -28,4 +28,21 @@ public class RawMaterialController {
                         .build()
         );
     }
+
+    public ResponseEntity<?> getById(String id){}
+    public ResponseEntity<?> getAll(){}
+    public ResponseEntity<?> update(String id,RawMaterialRequest request){
+        RawMaterialResponse rawMaterial = rawMaterialService.update(id,request);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Successfully updated raw material")
+                        .data(rawMaterial)
+                        .build()
+        );
+    }
+    public void delete(String id){
+        rawMaterialService.delete(id);
+        ResponseEntity.ok();
+    }
 }
