@@ -3,10 +3,11 @@ package com.tabletrack.table_track_API.controller;
 import com.tabletrack.table_track_API.constant.EndPointApp;
 import com.tabletrack.table_track_API.model.dto.request.WarehouseRequest;
 import com.tabletrack.table_track_API.model.dto.response.CommonResponse;
+import com.tabletrack.table_track_API.model.dto.response.ContainerResponse;
 import com.tabletrack.table_track_API.model.dto.response.WarehouseResponse;
+import com.tabletrack.table_track_API.model.entity.product_import.Container;
 import com.tabletrack.table_track_API.model.entity.product_import.Warehouse;
 import com.tabletrack.table_track_API.service.WarehouseService;
-import jakarta.activation.CommandMap;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
@@ -70,8 +71,32 @@ public class WarehouseController {
     }
 
     @DeleteMapping(EndPointApp.DELETE_BY_ID)
-    public ResponseEntity<?> delete(@PathVariable String id){
+    public void delete(@PathVariable String id){
         warehouseService.delete(id);
         ResponseEntity.ok();
+    }
+
+    @GetMapping(EndPointApp.GET_BY_ID)
+    public ResponseEntity<?> listAllContainers(@PathVariable String warehouseId){
+        List<Container> containers = warehouseService.listAllContainer(warehouseId);
+        return ResponseEntity.status(HttpStatus.OK).body(
+          CommonResponse.builder()
+                  .statusCode(HttpStatus.OK.value())
+                  .message("Successfully fetch all containers data from warehouse : " + warehouseId)
+                  .data(containers)
+                  .build()
+        );
+    }
+
+    @GetMapping("/{warehouseId}/{containerId}")
+    public ResponseEntity<?> findContainer(@PathVariable String warehouseId,@PathVariable String containerId){
+        ContainerResponse containerResponse = warehouseService.findContainer(warehouseId,containerId);
+        return ResponseEntity.status(HttpStatus.OK).body(
+            CommonResponse.builder()
+                    .statusCode(HttpStatus.OK.value())
+                    .message("Successfully fetch data")
+                    .data(containerResponse)
+                    .build()
+        );
     }
 }
