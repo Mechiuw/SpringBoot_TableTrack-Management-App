@@ -31,7 +31,16 @@ public class RawMaterialController {
         );
     }
 
-    public ResponseEntity<?> getById(String id){}
+    public ResponseEntity<?> getById(String id){
+        RawMaterialResponse response = rawMaterialService.getById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(
+          CommonResponse.builder()
+                  .statusCode(HttpStatus.OK.value())
+                  .message("Successfully fetch data")
+                  .data(response)
+                  .build()
+        );
+    }
     public ResponseEntity<?> getAll(){
         List<RawMaterial> list = rawMaterialService.getAll();
         return ResponseEntity.status(HttpStatus.OK).body(
