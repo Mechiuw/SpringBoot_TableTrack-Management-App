@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(EndPointApp.RAW_MATERIAL)
 @RequiredArgsConstructor
@@ -30,7 +32,16 @@ public class RawMaterialController {
     }
 
     public ResponseEntity<?> getById(String id){}
-    public ResponseEntity<?> getAll(){}
+    public ResponseEntity<?> getAll(){
+        List<RawMaterial> list = rawMaterialService.getAll();
+        return ResponseEntity.status(HttpStatus.OK).body(
+                CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Successfully list all")
+                        .data(list)
+                        .build()
+        );
+    }
     public ResponseEntity<?> update(String id,RawMaterialRequest request){
         RawMaterialResponse rawMaterial = rawMaterialService.update(id,request);
         return ResponseEntity.status(HttpStatus.OK).body(
