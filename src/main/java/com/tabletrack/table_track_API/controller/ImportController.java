@@ -7,6 +7,7 @@ import com.tabletrack.table_track_API.model.dto.response.ImportResponse;
 import com.tabletrack.table_track_API.model.entity.product_import.Import;
 import com.tabletrack.table_track_API.service.ImportService;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +52,15 @@ public class ImportController {
                         .build()
         );
     }
-    public ResponseEntity<?> update(String id, ImportRequest importRequest){}
+    public ResponseEntity<?> update(String id, ImportRequest importRequest){
+        ImportResponse importResponse = importService.update(id,importRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Successfully updated data")
+                        .data(importResponse)
+                        .build()
+        );
+    }
     public void delete(ImportRequest importRequest){}
 }
