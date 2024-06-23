@@ -8,6 +8,10 @@ public class EndPointApp {
     public static final String ORDER_DETAIL = "/api/order-detail";
 
     public static final String AUTHENTICATION = "/api/auth";
+    public static final String CONTAINER = "/api/auth";
+    public static final String IMPORT = "/api/auth";
+    public static final String RAWMATERIAL = "/api/auth";
+    public static final String WAREHOUSE = "/api/auth";
 
     public static final String GET_ALL = "/all";
     public static final String GET_BY_ID = "/{id}";
