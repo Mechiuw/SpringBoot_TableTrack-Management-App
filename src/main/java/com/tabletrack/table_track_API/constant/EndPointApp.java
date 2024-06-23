@@ -19,4 +19,5 @@ public class EndPointApp {
     public static final String DELETE_BY_ID = "/{id}";
     public static final String FILL_BY_ID = "/{id}";
     public static final String DETACH_BY_ID = "/{id}";
+    public static final String MOVE_FROM_ID = "/{id}";
 }

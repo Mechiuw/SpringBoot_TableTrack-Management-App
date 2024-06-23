@@ -84,4 +84,16 @@ public class RawMaterialController {
                         .build()
         );
     }
+
+    @PutMapping(EndPointApp.MOVE_FROM_ID)
+    public ResponseEntity<?> moveFromContainer(String materialId){
+        RawMaterialResponse response = rawMaterialService.moveFromContainer(materialId);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Successfully moved raw material from container")
+                        .data(response)
+                        .build()
+        );
+    }
 }
