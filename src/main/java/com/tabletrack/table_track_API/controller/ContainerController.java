@@ -43,7 +43,7 @@ public class ContainerController {
         );
     }
 
-    @PostMapping
+    @GetMapping(EndPointApp.GET_ALL)
     public ResponseEntity<?> getAll(){
         List<Container> list = containerService.getAll();
         return ResponseEntity.status(HttpStatus.OK).body(
@@ -116,4 +116,6 @@ public class ContainerController {
                         .build()
         );
     }
+
+
 }

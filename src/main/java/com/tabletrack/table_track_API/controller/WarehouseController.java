@@ -34,6 +34,7 @@ public class WarehouseController {
                 );
     }
 
+    @GetMapping(EndPointApp.GET_BY_ID)
     public ResponseEntity<?> getById(@PathVariable String id){
         WarehouseResponse warehouseResponse = warehouseService.getById(id);
         return ResponseEntity.status(HttpStatus.OK).body(
@@ -45,6 +46,7 @@ public class WarehouseController {
         );
     }
 
+    @GetMapping(EndPointApp.GET_ALL)
     public ResponseEntity<?> getAll(){
         List<Warehouse> warehouseList = warehouseService.getAll();
         return ResponseEntity.status(HttpStatus.OK).body(
@@ -54,5 +56,21 @@ public class WarehouseController {
                         .data(warehouseList)
                         .build()
         );
+    }
+    @PutMapping(EndPointApp.PUT_BY_ID)
+    public ResponseEntity<?> update(@PathVariable String id, @RequestBody WarehouseRequest warehouseRequest){
+        WarehouseResponse warehouseResponse = warehouseService.update(id,warehouseRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Successfully updated data with id : " + warehouseResponse.getId())
+                        .data(warehouseResponse)
+                        .build()
+        );
+    }
+
+    @DeleteMapping(EndPointApp.DELETE_BY_ID)
+    public ResponseEntity<?> delete(@PathVariable String id){
+
     }
 }
