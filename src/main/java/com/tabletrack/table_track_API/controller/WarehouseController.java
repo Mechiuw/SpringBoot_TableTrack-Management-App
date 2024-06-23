@@ -71,6 +71,7 @@ public class WarehouseController {
 
     @DeleteMapping(EndPointApp.DELETE_BY_ID)
     public ResponseEntity<?> delete(@PathVariable String id){
-
+        warehouseService.delete(id);
+        ResponseEntity.ok();
     }
 }
