@@ -10,6 +10,7 @@ import com.tabletrack.table_track_API.service.RawMaterialService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -100,35 +101,52 @@ public class RawMaterialServiceImpl implements RawMaterialService {
 
         Container container = containerRepository.findById(containerId)
                 .orElseThrow(() -> new NoSuchElementException(String.format("no container found with id : %s",containerId)));
+
+        if (container.getRawMaterialList() == null) {
+            container.setRawMaterialList(new ArrayList<>());
+        }
+        container.getRawMaterialList().add(rawMaterial);
         rawMaterial.setContainer(container);
-        RawMaterial updateContainerToRawMaterial = rawMaterialRepository.save(rawMaterial);
+
+        rawMaterialRepository.saveAndFlush(rawMaterial);
+        containerRepository.saveAndFlush(container);
+
         return RawMaterialResponse.builder()
-                .name(updateContainerToRawMaterial.getName())
-                .expDate(updateContainerToRawMaterial.getExpDate())
-                .price(updateContainerToRawMaterial.getPrice())
-                .manufacture(updateContainerToRawMaterial.getManufacture())
-                .stocks(updateContainerToRawMaterial.getStocks())
-                .distributionType(updateContainerToRawMaterial.getDistributionType())
-                .containerId(updateContainerToRawMaterial.getContainer().getId())
+                .id(rawMaterial.getId())
+                .name(rawMaterial.getName())
+                .expDate(rawMaterial.getExpDate())
+                .price(rawMaterial.getPrice())
+                .manufacture(rawMaterial.getManufacture())
+                .stocks(rawMaterial.getStocks())
+                .distributionType(rawMaterial.getDistributionType())
+                .containerId(rawMaterial.getContainer().getId())
                 .build();
     }
+
 
     @Override
     public RawMaterialResponse moveFromContainer(String materialId) {
         RawMaterial rawMaterial = rawMaterialRepository.findById(materialId)
                 .orElseThrow(() -> new NoSuchElementException(String.format("not found material with id : %s",materialId)));
 
-        rawMaterial.setContainer(null);
-        RawMaterial savedRawMaterial = rawMaterialRepository.save(rawMaterial);
+        Container container = rawMaterial.getContainer();
+
+        if (container != null) {
+            container.getRawMaterialList().remove(rawMaterial);
+            rawMaterial.setContainer(null);
+            rawMaterialRepository.saveAndFlush(rawMaterial);
+            containerRepository.saveAndFlush(container);
+        }
+
         return RawMaterialResponse.builder()
-                .id(savedRawMaterial.getId())
-                .name(savedRawMaterial.getName())
-                .expDate(savedRawMaterial.getExpDate())
-                .price(savedRawMaterial.getPrice())
-                .manufacture(savedRawMaterial.getManufacture())
-                .stocks(savedRawMaterial.getStocks())
-                .distributionType(savedRawMaterial.getDistributionType())
-                .containerId(savedRawMaterial.getContainer() != null ? savedRawMaterial.getContainer().getId() : null)
+                .id(rawMaterial.getId())
+                .name(rawMaterial.getName())
+                .expDate(rawMaterial.getExpDate())
+                .price(rawMaterial.getPrice())
+                .manufacture(rawMaterial.getManufacture())
+                .stocks(rawMaterial.getStocks())
+                .distributionType(rawMaterial.getDistributionType())
+                .containerId(rawMaterial.getContainer() != null ? rawMaterial.getContainer().getId() : null)
                 .build();
     }
 }
