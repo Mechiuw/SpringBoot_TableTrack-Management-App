@@ -99,4 +99,16 @@ public class WarehouseController {
                     .build()
         );
     }
+
+    @GetMapping("/{warehouseId}/{containerId}")
+    public ResponseEntity<?> addContainer(@PathVariable String warehouseId,@PathVariable String containerId){
+        ContainerResponse containerResponse = warehouseService.addContainer(warehouseId,containerId);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Successfully fetch data")
+                        .data(containerResponse)
+                        .build()
+        );
+    }
 }
