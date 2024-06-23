@@ -95,4 +95,16 @@ public class ContainerController {
                         .build()
         );
     }
+
+    @PutMapping(EndPointApp.DETACH_BY_ID)
+    public ResponseEntity<?> detachFromWarehouse(@PathVariable String id){
+        ContainerResponse detach = containerService.detachFromWarehouse(id);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Successfully detached Container from warehouse")
+                        .data(detach)
+                        .build()
+        );
+    }
 }
