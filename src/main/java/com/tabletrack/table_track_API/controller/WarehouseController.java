@@ -76,7 +76,7 @@ public class WarehouseController {
         ResponseEntity.ok();
     }
 
-    @GetMapping(EndPointApp.GET_BY_ID)
+    @GetMapping(EndPointApp.GET_LIST_CONTAINER_BY_ID)
     public ResponseEntity<?> listAllContainers(@PathVariable String warehouseId){
         List<Container> containers = warehouseService.listAllContainer(warehouseId);
         return ResponseEntity.status(HttpStatus.OK).body(

@@ -24,4 +24,5 @@ public class EndPointApp {
     public static final String MOVE_FROM_ID = "/move/{id}";
     public static final String FIND_CONTAINER_ID = "/find-container/{warehouseId}/{containerId}";
     public static final String ADD_CONTAINER_ID = "/add-container/{warehouseId}/{containerId}";
+    public static final String GET_LIST_CONTAINER_BY_ID = "/list-containers/{id}";
 }
