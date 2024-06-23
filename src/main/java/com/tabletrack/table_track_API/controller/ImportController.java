@@ -62,5 +62,8 @@ public class ImportController {
                         .build()
         );
     }
-    public void delete(ImportRequest importRequest){}
+    public void delete(String id){
+        importService.delete(id);
+        ResponseEntity.ok();
+    }
 }
