@@ -20,7 +20,7 @@ public class ContainerController {
     private final ContainerService containerService;
 
     @PostMapping
-    public ResponseEntity<?> createContainer(@RequestBody ContainerRequest containerRequest){
+    public ResponseEntity<?> create(@RequestBody ContainerRequest containerRequest){
         ContainerResponse containerResponse = containerService.create(containerRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 CommonResponse.builder()
@@ -42,6 +42,7 @@ public class ContainerController {
         );
     }
 
+    @PostMapping
     public ResponseEntity<?> getAll(){
         List<Container> list = containerService.getAll();
         return ResponseEntity.status(HttpStatus.OK).body(
@@ -53,4 +54,21 @@ public class ContainerController {
         );
     }
 
+    @PutMapping(EndPointApp.PUT_BY_ID)
+    public ResponseEntity<?> update(@PathVariable String id,@RequestBody ContainerRequest containerRequest){
+        ContainerResponse containerResponse = containerService.update(id,containerRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Successfully updates data")
+                        .data(containerResponse)
+                        .build()
+        );
+    }
+
+    @DeleteMapping(EndPointApp.DELETE_BY_ID)
+    public void delete(@PathVariable String id){
+        containerService.delete(id);
+        ResponseEntity.ok();
+    }
 }
