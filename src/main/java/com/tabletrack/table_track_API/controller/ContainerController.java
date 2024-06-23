@@ -32,6 +32,7 @@ public class ContainerController {
 
     @GetMapping(EndPointApp.GET_BY_ID)
     public ResponseEntity<?> getById(@PathVariable String id){
+        assert id != null : "container id forbidden to be null";
         ContainerResponse containerResponse = containerService.getById(id);
         return ResponseEntity.status(HttpStatus.OK).body(
             CommonResponse.builder()
@@ -56,6 +57,7 @@ public class ContainerController {
 
     @PutMapping(EndPointApp.PUT_BY_ID)
     public ResponseEntity<?> update(@PathVariable String id,@RequestBody ContainerRequest containerRequest){
+        assert id != null : "container id forbidden to be null";
         ContainerResponse containerResponse = containerService.update(id,containerRequest);
         return ResponseEntity.status(HttpStatus.OK).body(
                 CommonResponse.builder()
@@ -68,12 +70,15 @@ public class ContainerController {
 
     @DeleteMapping(EndPointApp.DELETE_BY_ID)
     public void delete(@PathVariable String id){
+        assert id != null : "container id forbidden to be null";
         containerService.delete(id);
         ResponseEntity.ok();
     }
 
     @PutMapping(EndPointApp.FILL_BY_ID)
     public ResponseEntity<?> fillContainer(@PathVariable String id,@RequestBody ContainerRequest containerRequest){
+        assert id != null : "container id forbidden to be null";
+
         ContainerResponse fill = containerService.addRawMaterials(id, containerRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 CommonResponse.builder()
@@ -86,6 +91,9 @@ public class ContainerController {
 
     @PutMapping("/{warehouseId}/containers/{containerId}")
     public ResponseEntity<?> moveToWarehouse(@PathVariable String warehouseId, @PathVariable String containerId){
+        assert warehouseId != null : "warehouse id forbidden to be null";
+        assert containerId != null : "container id forbidden to be null";
+
         ContainerResponse move = containerService.moveToWarehouse(warehouseId, containerId);
         return ResponseEntity.status(HttpStatus.OK).body(
                 CommonResponse.builder()
@@ -98,6 +106,7 @@ public class ContainerController {
 
     @PutMapping(EndPointApp.DETACH_BY_ID)
     public ResponseEntity<?> detachFromWarehouse(@PathVariable String id){
+        assert id != null : "container id forbidden to be null";
         ContainerResponse detach = containerService.detachFromWarehouse(id);
         return ResponseEntity.status(HttpStatus.OK).body(
                 CommonResponse.builder()
