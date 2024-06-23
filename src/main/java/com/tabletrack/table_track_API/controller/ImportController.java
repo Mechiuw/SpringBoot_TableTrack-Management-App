@@ -11,8 +11,7 @@ import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,7 +20,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ImportController {
     private final ImportService importService;
-    public ResponseEntity<?> create(ImportRequest importRequest){
+
+    @PostMapping
+    public ResponseEntity<?> create(@RequestBody ImportRequest importRequest){
         ImportResponse importResponse = importService.create(importRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 CommonResponse.builder()
@@ -32,7 +33,8 @@ public class ImportController {
         );
     }
 
-    public ResponseEntity<?> getById(String id){
+    @GetMapping(EndPointApp.GET_BY_ID)
+    public ResponseEntity<?> getById(@PathVariable String id){
         ImportResponse importResponse = importService.getById(id);
         return ResponseEntity.status(HttpStatus.OK).body(
                 CommonResponse.builder()
@@ -42,6 +44,7 @@ public class ImportController {
                         .build()
         );
     }
+    @GetMapping(EndPointApp.GET_ALL)
     public ResponseEntity<?> getAll(){
         List<Import> list = importService.getAll();
         return ResponseEntity.status(HttpStatus.OK).body(
@@ -52,7 +55,9 @@ public class ImportController {
                         .build()
         );
     }
-    public ResponseEntity<?> update(String id, ImportRequest importRequest){
+
+    @PutMapping(EndPointApp.PUT_BY_ID)
+    public ResponseEntity<?> update(@PathVariable String id,@RequestBody ImportRequest importRequest){
         ImportResponse importResponse = importService.update(id,importRequest);
         return ResponseEntity.status(HttpStatus.OK).body(
                 CommonResponse.builder()
@@ -62,7 +67,8 @@ public class ImportController {
                         .build()
         );
     }
-    public void delete(String id){
+    @DeleteMapping(EndPointApp.DELETE_BY_ID)
+    public void delete(@PathVariable String id){
         importService.delete(id);
         ResponseEntity.ok();
     }
