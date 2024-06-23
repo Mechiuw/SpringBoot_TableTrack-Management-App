@@ -4,12 +4,16 @@ import com.tabletrack.table_track_API.constant.EndPointApp;
 import com.tabletrack.table_track_API.model.dto.request.WarehouseRequest;
 import com.tabletrack.table_track_API.model.dto.response.CommonResponse;
 import com.tabletrack.table_track_API.model.dto.response.WarehouseResponse;
+import com.tabletrack.table_track_API.model.entity.product_import.Warehouse;
 import com.tabletrack.table_track_API.service.WarehouseService;
+import jakarta.activation.CommandMap;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(EndPointApp.WAREHOUSE)
@@ -37,6 +41,17 @@ public class WarehouseController {
                         .statusCode(HttpStatus.OK.value())
                         .message("Successfully fetch data")
                         .data(warehouseResponse)
+                        .build()
+        );
+    }
+
+    public ResponseEntity<?> getAll(){
+        List<Warehouse> warehouseList = warehouseService.getAll();
+        return ResponseEntity.status(HttpStatus.OK).body(
+                CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Successfully fetch all data")
+                        .data(warehouseList)
                         .build()
         );
     }
