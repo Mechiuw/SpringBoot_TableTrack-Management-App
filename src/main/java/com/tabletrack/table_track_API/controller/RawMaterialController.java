@@ -72,4 +72,16 @@ public class RawMaterialController {
         rawMaterialService.delete(id);
         ResponseEntity.ok();
     }
+
+    @PutMapping("/{materialId}/{containerId}")
+    public ResponseEntity<?> moveToContainer(@PathVariable String materialId, @PathVariable String containerId){
+        RawMaterialResponse response = rawMaterialService.moveToContainer(materialId,containerId);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Successfully moved raw material: "+ materialId + " | to container: " + containerId)
+                        .data(response)
+                        .build()
+        );
+    }
 }
