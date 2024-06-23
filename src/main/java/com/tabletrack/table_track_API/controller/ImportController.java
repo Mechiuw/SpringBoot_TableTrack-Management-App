@@ -27,7 +27,17 @@ public class ImportController {
                         .build()
         );
     }
-    public ResponseEntity<?> getById(String id){}
+
+    public ResponseEntity<?> getById(String id){
+        ImportResponse importResponse = importService.getById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Successfully fetch data")
+                        .data(importResponse)
+                        .build()
+        );
+    }
     public ResponseEntity<?> getAll(){}
     public ResponseEntity<?> update(String id, ImportRequest importRequest){}
     public void delete(ImportRequest importRequest){}
