@@ -88,7 +88,7 @@ public class WarehouseController {
         );
     }
 
-    @GetMapping("/{warehouseId}/{containerId}")
+    @GetMapping(EndPointApp.FIND_CONTAINER_ID)
     public ResponseEntity<?> findContainer(@PathVariable String warehouseId,@PathVariable String containerId){
         ContainerResponse containerResponse = warehouseService.findContainer(warehouseId,containerId);
         return ResponseEntity.status(HttpStatus.OK).body(
@@ -100,7 +100,7 @@ public class WarehouseController {
         );
     }
 
-    @GetMapping("/{warehouseId}/{containerId}")
+    @PutMapping(EndPointApp.ADD_CONTAINER_ID)
     public ResponseEntity<?> addContainer(@PathVariable String warehouseId,@PathVariable String containerId){
         ContainerResponse containerResponse = warehouseService.addContainer(warehouseId,containerId);
         return ResponseEntity.status(HttpStatus.OK).body(

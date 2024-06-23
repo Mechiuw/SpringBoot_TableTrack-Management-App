@@ -19,7 +19,9 @@ public class EndPointApp {
     public static final String GET_BY_ID = "/{id}";
     public static final String PUT_BY_ID = "/{id}";
     public static final String DELETE_BY_ID = "/{id}";
-    public static final String FILL_BY_ID = "/{id}";
-    public static final String DETACH_BY_ID = "/{id}";
-    public static final String MOVE_FROM_ID = "/{id}";
+    public static final String FILL_BY_ID = "/fill/{id}";
+    public static final String DETACH_BY_ID = "/detach/{id}";
+    public static final String MOVE_FROM_ID = "/move/{id}";
+    public static final String FIND_CONTAINER_ID = "/find-container/{warehouseId}/{containerId}";
+    public static final String ADD_CONTAINER_ID = "/add-container/{warehouseId}/{containerId}";
 }
