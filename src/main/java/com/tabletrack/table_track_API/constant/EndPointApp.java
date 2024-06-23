@@ -13,6 +13,8 @@ public class EndPointApp {
     public static final String RAW_MATERIAL = "/api/raw-material";
     public static final String WAREHOUSE = "/api/warehouse";
 
+    public static final String IMPORT_DETAIL = "/api/import-detail";
+
     public static final String GET_ALL = "/all";
     public static final String GET_BY_ID = "/{id}";
     public static final String PUT_BY_ID = "/{id}";
