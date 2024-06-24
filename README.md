@@ -1,4 +1,4 @@
-![TableTrack Logo](https://firebasestorage.googleapis.com/v0/b/fashion-web-urbanista.appspot.com/o/urbanista-logo%2Fbanner.png?alt=media&token=0376bf4d-0015-47b1-9b37-89fdca7fe8b5)
+![TableTrack Logo](https://firebasestorage.googleapis.com/v0/b/fashion-web-urbanista.appspot.com/o/urbanista-logo%2Fbannergithub.png?alt=media&token=61e5d705-1cc7-4904-b8ae-06cc7d02f335)
 
 # TableTrack-App
 The TableTrack Management App is a comprehensive solution designed to manage restaurant operations efficiently. Currently developed using Spring Boot in a monolithic architecture, it leverages Java Streams for business logic and CRUD operations, PostgreSQL as the database, and Lombok to minimize boilerplate code. Future enhancements include integrating a React frontend and a React Native mobile application.
