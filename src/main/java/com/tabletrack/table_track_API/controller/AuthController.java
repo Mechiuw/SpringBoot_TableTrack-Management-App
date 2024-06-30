@@ -9,6 +9,7 @@ import com.tabletrack.table_track_API.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     private final AuthService authService;
 
+    @PostMapping(EndPointApp.REGISTER)
     public ResponseEntity<?> register(@RequestBody AuthRequest authRequest){
         RegisterResponse registerResponse = authService.registerCustomer(authRequest);
         CommonResponse<RegisterResponse> response = CommonResponse.<RegisterResponse>builder()
@@ -32,6 +34,7 @@ public class AuthController {
                 .body(response);
     }
 
+    @PostMapping(EndPointApp.LOGIN)
     public ResponseEntity<?> login(@RequestBody AuthRequest authRequest){
         LoginResponse loginResponse = authService.login(authRequest);
         CommonResponse<LoginResponse> response = CommonResponse.<LoginResponse>builder()

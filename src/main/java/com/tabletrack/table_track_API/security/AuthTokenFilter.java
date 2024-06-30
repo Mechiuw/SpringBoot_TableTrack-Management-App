@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,8 +16,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Map;
-
-import org.springframework.http.HttpHeaders;
 
 @RequiredArgsConstructor
 @Component
@@ -29,24 +28,25 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         try {
             String headerAuth = request.getHeader(HttpHeaders.AUTHORIZATION);
             String token = null;
-            if(headerAuth != null && headerAuth.startsWith("Bearer ")){
+            if (headerAuth != null && headerAuth.startsWith("Bearer ")) {
                 token = headerAuth.substring(7);
             }
-            if(token != null && jwtUtil.verifyJwtToken(token)){
-                //set auth to spring security
-                Map<String, String> userInfo = jwtUtil.getUserInfoByToken(token);
-                UserDetails user = userService.loadUserByUserId(userInfo.get("userId"));
-                //token validation
-                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user,null,user.getAuthorities());
-                //add information containing IP address to security
-                authenticationToken.setDetails(new WebAuthenticationDetailsSource());
 
-                //saving auth to spring
+            if (token != null && jwtUtil.verifyJwtToken(token)) {
+                Map<String, String> userInfo = jwtUtil.getUserInfoByToken(token);
+                UserDetails userDetails = userService.loadUserByUserId(userInfo.get("userId"));
+
+                UsernamePasswordAuthenticationToken authenticationToken =
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
-        } catch (Exception e){
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            // Handle specific exceptions or log errors
+            throw new RuntimeException("Authentication failed: " + e.getMessage());
         }
-        filterChain.doFilter(request,response);
+
+        filterChain.doFilter(request, response);
     }
 }
