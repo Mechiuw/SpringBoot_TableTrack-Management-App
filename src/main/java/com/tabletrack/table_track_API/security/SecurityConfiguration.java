@@ -39,6 +39,7 @@ public class SecurityConfiguration {
             "/webjars/**",
             "/swagger-ui/index.html",
             "/v3/api-docs",
+            "/register"
 
     };
 
@@ -56,16 +57,6 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
-    }
-
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("*");
-            }
-        };
     }
 
 }
