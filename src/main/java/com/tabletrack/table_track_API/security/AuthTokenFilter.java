@@ -17,9 +17,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Map;
 
-@RequiredArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class AuthTokenFilter extends OncePerRequestFilter {
+
     private final JwtUtil jwtUtil;
     private final UserService userService;
 
@@ -28,25 +29,23 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         try {
             String headerAuth = request.getHeader(HttpHeaders.AUTHORIZATION);
             String token = null;
-            if (headerAuth != null && headerAuth.startsWith("Bearer ")) {
+            if (headerAuth != null && headerAuth.startsWith("Bearer ")){
                 token = headerAuth.substring(7);
             }
+            if (token != null && jwtUtil.verifyJwtToken(token)){
 
-            if (token != null && jwtUtil.verifyJwtToken(token)) {
                 Map<String, String> userInfo = jwtUtil.getUserInfoByToken(token);
-                UserDetails userDetails = userService.loadUserByUserId(userInfo.get("userId"));
+                UserDetails user = userService.loadUserByUserId(userInfo.get("userId"));
 
-                UsernamePasswordAuthenticationToken authenticationToken =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource());
 
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
-        } catch (Exception e) {
-            // Handle specific exceptions or log errors
-            throw new RuntimeException("Authentication failed: " + e.getMessage());
+        }catch (Exception e){
+            e.getMessage();
         }
-
-        filterChain.doFilter(request, response);
+        filterChain.doFilter(request,response);
     }
 }

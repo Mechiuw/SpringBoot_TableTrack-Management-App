@@ -38,13 +38,19 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional(rollbackOn = Exception.class)
     public RegisterResponse registerCustomer(AuthRequest authRequest) {
+        if(authRequest == null || authRequest.getUsername() == null){
+            throw new IllegalArgumentException("Username cannot be null");
+        }
+
+        String username = authRequest.getUsername().toLowerCase();
+
         try {
             //TODO 1 set the role
             Role role = roleService.getOrSave(ERole.USER);
 
             //TODO 2 set Credential
             UserCredential userCredential = UserCredential.builder()
-                    .username(authRequest.getUsername().toLowerCase())
+                    .username(username)
                     .password(passwordEncoder.encode(authRequest.getPassword()))
                     .role(role)
                     .build();
