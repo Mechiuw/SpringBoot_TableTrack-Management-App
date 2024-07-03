@@ -7,6 +7,7 @@ import com.tabletrack.table_track_API.model.dto.response.ProductResponse;
 import com.tabletrack.table_track_API.model.entity.order.Product;
 import com.tabletrack.table_track_API.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -67,5 +68,17 @@ public class ProductController {
     public void delete(@PathVariable String id){
         productService.delete(id);
         ResponseEntity.ok();
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> productList(@RequestParam(name = "input")String input){
+        List<Product> productList = productService.suggestionProduct(input);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message("successfully fetched")
+                        .data(productList)
+                        .build()
+        );
     }
 }
