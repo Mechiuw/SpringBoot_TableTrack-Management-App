@@ -74,8 +74,13 @@ public class CustomerController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Customer>> searchAutocomplete(@RequestParam String input){
+    public ResponseEntity<?> searchAutocomplete(@RequestParam String input){
         List<Customer> customers = customerService.customerSuggestions(input);
-        return ResponseEntity.ok().body(customers);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CommonResponse.builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Successfully fetch data")
+                        .data(customers)
+                        .build());
     }
 }
