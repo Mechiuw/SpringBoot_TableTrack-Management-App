@@ -20,7 +20,7 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PostMapping
-    private ResponseEntity<?> create(@RequestBody CustomerRequest customerRequest){
+    public ResponseEntity<?> create(@RequestBody CustomerRequest customerRequest){
         CustomerResponse customerResponse = customerService.create(customerRequest);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(CommonResponse.builder()
@@ -31,7 +31,7 @@ public class CustomerController {
     }
 
     @GetMapping(EndPointApp.GET_ALL)
-    private ResponseEntity<?> getAll(){
+    public ResponseEntity<?> getAll(){
         List<Customer> customerData = customerService.getAll();
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.builder()
@@ -42,7 +42,7 @@ public class CustomerController {
     }
 
     @GetMapping(EndPointApp.GET_BY_ID)
-    private ResponseEntity<?> getById(@PathVariable String id){
+    public ResponseEntity<?> getById(@PathVariable String id){
         CustomerResponse customerResponse = customerService.getId(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.builder()
@@ -53,7 +53,7 @@ public class CustomerController {
     }
 
     @PutMapping(EndPointApp.PUT_BY_ID)
-    private ResponseEntity<?> update(@PathVariable String id,@RequestBody CustomerRequest customerRequest){
+    public ResponseEntity<?> update(@PathVariable String id,@RequestBody CustomerRequest customerRequest){
         CustomerResponse customerResponse = customerService.update(id,customerRequest);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.builder()
@@ -64,7 +64,7 @@ public class CustomerController {
     }
 
     @DeleteMapping(EndPointApp.DELETE_BY_ID)
-    private void delete(@PathVariable String id){
+    public void delete(@PathVariable String id){
         customerService.delete(id);
         ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.builder()
@@ -72,4 +72,6 @@ public class CustomerController {
                         .message("Successfully delete data")
                         .build());
     }
+
+
 }

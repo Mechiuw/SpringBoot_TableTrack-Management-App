@@ -13,6 +13,8 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>tabletrack-management-API</name>
 	<description>Resto application management project for Spring Boot that has many features upcoming!</description>
+	<packaging>jar</packaging>
+
 	<properties>
 		<java.version>17</java.version>
 	</properties>

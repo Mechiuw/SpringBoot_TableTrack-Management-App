@@ -8,6 +8,7 @@ import com.tabletrack.table_track_API.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,5 +71,23 @@ public class CustomerServiceImpl implements CustomerService {
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
+    }
+
+    @Override
+    public List<Customer> customerSuggestions(String input) {
+        List<Customer> allCustomer = customerRepository.findAll();
+        List<Customer> suggested = new ArrayList<>();
+
+        for(Customer c : allCustomer){
+            if(c != null){
+                String name = c.getName();
+                if(name != null && (name.equalsIgnoreCase(input) || name.toLowerCase().contains(input.toLowerCase()))){
+                    suggested.add(c);
+                }
+            } else {
+                throw new IllegalArgumentException("not found any customer");
+            }
+        }
+        return suggested;
     }
 }

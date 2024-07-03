@@ -12,4 +12,5 @@ public interface CustomerService {
     CustomerResponse getId(String id);
     CustomerResponse update(String id, CustomerRequest customerRequest);
     void delete(String id);
+    List<Customer> customerSuggestions(String input);
 }
