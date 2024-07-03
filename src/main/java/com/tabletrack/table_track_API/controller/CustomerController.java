@@ -74,7 +74,7 @@ public class CustomerController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> searchAutocomplete(@RequestParam String input){
+    public ResponseEntity<?> searchAutocomplete(@RequestParam(name = "input") String input){
         List<Customer> customers = customerService.customerSuggestions(input);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonResponse.builder()

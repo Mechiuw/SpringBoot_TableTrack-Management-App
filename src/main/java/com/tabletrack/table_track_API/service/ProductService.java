@@ -12,4 +12,6 @@ public interface ProductService {
     ProductResponse getById(String id);
     ProductResponse update(String id, ProductRequest productRequest);
     void delete(String id);
+
+    List<Product> suggestionProduct(String input);
 }

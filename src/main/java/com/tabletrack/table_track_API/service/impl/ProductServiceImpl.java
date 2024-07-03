@@ -8,6 +8,7 @@ import com.tabletrack.table_track_API.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -71,5 +72,20 @@ public class ProductServiceImpl implements ProductService {
     public void delete(String id) {
         Product product = productRepository.findById(id).orElseThrow();
         productRepository.delete(product);
+    }
+
+    @Override
+    public List<Product> suggestionProduct(String input) {
+        List<Product> collectProductData = productRepository.findAll();
+        List<Product> suggestedProduct = new ArrayList<>();
+        for(Product p : collectProductData){
+            if(p != null){
+                String productName = p.getName();
+                if(productName != null && (productName.equalsIgnoreCase(input) || productName.toLowerCase().contains(input))){
+                    suggestedProduct.add(p);
+                }
+            }
+        }
+        return suggestedProduct;
     }
 }
