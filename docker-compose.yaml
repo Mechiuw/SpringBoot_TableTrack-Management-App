@@ -1,0 +1,33 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    container_name: tabletrack_dbs
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: metiu123
+      POSTGRES_DB: db_tabletrack_co
+    ports:
+      - "5432:5432"
+    volumes:
+      - C:\tabletrack_dbs:/var/lib/postgresql/data
+    restart: always
+
+  backend:
+    build: .
+    container_name: tabletrack_bes
+    environment:
+      db_url: jdbc:postgresql://db:5432/db_tabletrack_co
+      db_uname: postgres
+      db_pass: metiu123
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    restart: always
+
+networks:
+  app-network:
+
+volumes:
+  postgres_data:
