@@ -71,7 +71,7 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> productList(@RequestParam(name = "input")String input){
+    public ResponseEntity<?> searchProduct(@RequestParam(name = "input")String input){
         List<Product> productList = productService.suggestionProduct(input);
         return ResponseEntity.status(HttpStatus.OK).body(
                 CommonResponse.builder()
